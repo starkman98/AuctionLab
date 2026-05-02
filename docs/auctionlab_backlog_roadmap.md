@@ -118,11 +118,11 @@ public class Bid
 - [x] Skapa ASP.NET Core Web API-projekt
 - [x] Lägg till Entity Framework Core
 - [x] Lägg till SQL Server connection string
-- [ ] Skapa `AppDbContext`
-- [ ] Skapa modeller: `User`, `Auction`, `Bid`
-- [ ] Skapa första migrationen
-- [ ] Kör `database update`
-- [ ] Kontrollera att tabeller skapas i databasen
+- [x] Skapa `AppDbContext`
+- [x] Skapa modeller: `User`, `Auction`, `Bid`
+- [x] Skapa första migrationen
+- [x] Kör `database update`
+- [x] Kontrollera att tabeller skapas i databasen
 
 ### Steg 2 – Auth och JWT
 

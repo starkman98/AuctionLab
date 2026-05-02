@@ -115,9 +115,9 @@ public class Bid
 
 ### Steg 1 – Grundprojekt
 
-- [ ] Skapa ASP.NET Core Web API-projekt
-- [ ] Lägg till Entity Framework Core
-- [ ] Lägg till SQL Server connection string
+- [x] Skapa ASP.NET Core Web API-projekt
+- [x] Lägg till Entity Framework Core
+- [x] Lägg till SQL Server connection string
 - [ ] Skapa `AppDbContext`
 - [ ] Skapa modeller: `User`, `Auction`, `Bid`
 - [ ] Skapa första migrationen

@@ -27,7 +27,7 @@ namespace AuctionLab.Api.Controllers
         }
 
         [HttpPut("me/password")]
-        public async Task<ActionResult> ChangePasswordAsync([FromBody] ChangePasswordRequest request, CancellationToken cancellationToken)
+        public async Task<ActionResult> ChangePassword([FromBody] ChangePasswordRequest request, CancellationToken cancellationToken)
         {
             if (!TryGetUserId(out var userId))
                 return Unauthorized();

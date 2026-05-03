@@ -1,4 +1,5 @@
 using AuctionLab.Api.Middleware;
+using AuctionLab.Application.Auctions;
 using AuctionLab.Application.Auth;
 using AuctionLab.Application.Repositories;
 using AuctionLab.Application.Users;
@@ -78,7 +79,9 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IAuctionService, AuctionService>();
 
+builder.Services.AddScoped<IAuctionRepository, AuctionRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IPasswordHasher, BcryptPasswordHasher>();
 

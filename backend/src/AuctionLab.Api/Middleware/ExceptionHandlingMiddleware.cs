@@ -1,3 +1,4 @@
+using AuctionLab.Application.Auctions.Exceptions;
 using AuctionLab.Application.Auth.Exceptions;
 using AuctionLab.Application.Users.Exceptions;
 using Microsoft.AspNetCore.Mvc;
@@ -34,6 +35,7 @@ public class ExceptionHandlingMiddleware
             InvalidCredentialsException => StatusCodes.Status401Unauthorized,
             InvalidCurrentPasswordException => StatusCodes.Status401Unauthorized,
             UserNotFoundException => StatusCodes.Status401Unauthorized,
+            AuctionNotFoundException => StatusCodes.Status404NotFound,
             _ => StatusCodes.Status500InternalServerError
         };
 
@@ -43,6 +45,7 @@ public class ExceptionHandlingMiddleware
             Title = statusCode switch
             {
                 409 => "Conflict",
+                404 => "Not Found",
                 401 => "Unauthorized",
                 _ => "An unexpected error occurred"
             },

@@ -8,7 +8,7 @@ namespace AuctionLab.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthController : ControllerBase
+    public class AuthController : AppControllerBase
     {
         private readonly IAuthService _authService;
 

@@ -126,13 +126,13 @@ public class Bid
 
 ### Steg 2 – Auth och JWT
 
-- [ ] Skapa register-endpoint
-- [ ] Hasha lösenord, spara aldrig plain text
-- [ ] Skapa login-endpoint
-- [ ] Validera email + lösenord
-- [ ] Skapa JWT-token vid lyckad login
-- [ ] Lägg in claims: userId, email, role
-- [ ] Konfigurera JWT Bearer i `Program.cs`
+- [x] Skapa register-endpoint
+- [x] Hasha lösenord, spara aldrig plain text
+- [x] Skapa login-endpoint
+- [x] Validera email + lösenord
+- [x] Skapa JWT-token vid lyckad login
+- [x] Lägg in claims: userId, email, role
+- [x] Konfigurera JWT Bearer i `Program.cs`
 - [ ] Testa skyddad endpoint med `[Authorize]`
 
 Rekommenderade endpoints:

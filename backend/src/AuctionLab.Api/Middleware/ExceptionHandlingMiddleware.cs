@@ -1,4 +1,5 @@
 using AuctionLab.Application.Auth.Exceptions;
+using AuctionLab.Application.Users.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuctionLab.Api.Middleware;
@@ -31,6 +32,8 @@ public class ExceptionHandlingMiddleware
             DuplicateEmailException => StatusCodes.Status409Conflict,
             DuplicateUserNameException => StatusCodes.Status409Conflict,
             InvalidCredentialsException => StatusCodes.Status401Unauthorized,
+            InvalidCurrentPasswordException => StatusCodes.Status401Unauthorized,
+            UserNotFoundException => StatusCodes.Status401Unauthorized,
             _ => StatusCodes.Status500InternalServerError
         };
 

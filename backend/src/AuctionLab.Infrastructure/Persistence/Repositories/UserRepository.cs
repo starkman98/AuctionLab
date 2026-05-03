@@ -13,11 +13,18 @@ public class UserRepository : IUserRepository
         _context = context;
     }
 
+    public async Task<User?> GetByIdAsync(int userId)
+        => await _context.Users.FindAsync(userId);
+
     public async Task AddAsync(User user)
     {
-        await _context.Users.AddAsync(user);
+        _context.Users.Add(user);
         await _context.SaveChangesAsync();
     }
+
+    public async Task UpdatePasswordHash(int userId, string passwordHash)
+        => await _context.Users.Where(u => u.UserId == userId)
+            .ExecuteUpdateAsync(s => s.SetProperty(u => u.PasswordHash, passwordHash));
 
     public async Task<bool> EmailExistsAsync(string email)
          => await _context.Users.AnyAsync(u => u.Email == email);

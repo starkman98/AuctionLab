@@ -19,9 +19,9 @@ public class AuthService : IAuthService
         _tokenService = tokenService;
     }
 
-    public async Task<AuthResponse> LoginAsync(LoginRequest request)
+    public async Task<AuthResponse> LoginAsync(LoginRequest request, CancellationToken cancellationToken = default)
     {
-        var user = await _userRepo.GetByUsernameAsync(request.UserName)
+        var user = await _userRepo.GetByUsernameAsync(request.UserName, cancellationToken)
             ?? throw new InvalidCredentialsException();
 
         if (!_hasher.Verify(request.Password, user.PasswordHash))
@@ -41,12 +41,12 @@ public class AuthService : IAuthService
         };
     }
 
-    public async Task<AuthResponse> RegisterAsync(RegisterRequest request)
+    public async Task<AuthResponse> RegisterAsync(RegisterRequest request, CancellationToken cancellationToken = default)
     {
-        if (await _userRepo.EmailExistsAsync(request.Email))
+        if (await _userRepo.EmailExistsAsync(request.Email, cancellationToken))
             throw new DuplicateEmailException();
 
-        if (await _userRepo.UsernameExistsAsync(request.UserName))
+        if (await _userRepo.UsernameExistsAsync(request.UserName, cancellationToken))
             throw new DuplicateUserNameException();
 
         var passwordHash = _hasher.Hash(request.Password);
@@ -62,7 +62,7 @@ public class AuthService : IAuthService
             Role = UserRoles.User
         };
 
-        await _userRepo.AddAsync(newUser);
+        await _userRepo.AddAsync(newUser, cancellationToken);
 
         var token = _tokenService.CreateToken(newUser);
 

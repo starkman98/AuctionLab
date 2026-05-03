@@ -4,10 +4,10 @@ namespace AuctionLab.Application.Repositories;
 
 public interface IUserRepository
 {
-    Task<User?> GetByIdAsync(int userId);
-    Task<User?> GetByUsernameAsync(string username);
-    Task UpdatePasswordHash(int userId, string passwordHash);
-    Task<bool> EmailExistsAsync(string email);
-    Task<bool> UsernameExistsAsync(string username);
-    Task AddAsync(User user);
+    Task<User?> GetByIdAsync(int userId, CancellationToken cancellationToken = default);
+    Task<User?> GetByUsernameAsync(string username, CancellationToken cancellationToken = default);
+    Task UpdatePasswordHash(int userId, string passwordHash, CancellationToken cancellationToken = default);
+    Task<bool> EmailExistsAsync(string email, CancellationToken cancellationToken = default);
+    Task<bool> UsernameExistsAsync(string username, CancellationToken cancellationToken = default);
+    Task AddAsync(User user, CancellationToken cancellationToken = default);
 }

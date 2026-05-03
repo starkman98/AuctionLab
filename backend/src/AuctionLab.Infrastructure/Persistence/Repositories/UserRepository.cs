@@ -13,25 +13,25 @@ public class UserRepository : IUserRepository
         _context = context;
     }
 
-    public async Task<User?> GetByIdAsync(int userId)
-        => await _context.Users.FindAsync(userId);
+    public async Task<User?> GetByIdAsync(int userId, CancellationToken cancellationToken = default)
+        => await _context.Users.FindAsync(new object[] { userId }, cancellationToken);
 
-    public async Task AddAsync(User user)
+    public async Task AddAsync(User user, CancellationToken cancellationToken = default)
     {
         _context.Users.Add(user);
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task UpdatePasswordHash(int userId, string passwordHash)
+    public async Task UpdatePasswordHash(int userId, string passwordHash, CancellationToken cancellationToken = default)
         => await _context.Users.Where(u => u.UserId == userId)
-            .ExecuteUpdateAsync(s => s.SetProperty(u => u.PasswordHash, passwordHash));
+            .ExecuteUpdateAsync(s => s.SetProperty(u => u.PasswordHash, passwordHash), cancellationToken);
 
-    public async Task<bool> EmailExistsAsync(string email)
-         => await _context.Users.AnyAsync(u => u.Email == email);
+    public async Task<bool> EmailExistsAsync(string email, CancellationToken cancellationToken = default)
+         => await _context.Users.AnyAsync(u => u.Email == email, cancellationToken);
 
-    public async Task<User?> GetByUsernameAsync(string username)
-        => await _context.Users.FirstOrDefaultAsync(u => u.UserName == username);
+    public async Task<User?> GetByUsernameAsync(string username, CancellationToken cancellationToken = default)
+        => await _context.Users.FirstOrDefaultAsync(u => u.UserName == username, cancellationToken);
 
-    public async Task<bool> UsernameExistsAsync(string username)
-        => await _context.Users.AnyAsync(u => u.UserName == username);
+    public async Task<bool> UsernameExistsAsync(string username, CancellationToken cancellationToken = default)
+        => await _context.Users.AnyAsync(u => u.UserName == username, cancellationToken);
 }

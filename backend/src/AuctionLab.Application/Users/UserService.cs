@@ -17,22 +17,22 @@ public class UserService : IUserService
         _hasher = hasher;
     }
 
-    public async Task ChangePasswordAsync(ChangePasswordRequest request, int userId)
+    public async Task ChangePasswordAsync(ChangePasswordRequest request, int userId, CancellationToken cancellationToken = default)
     {
-        var user = await _repo.GetByIdAsync(userId)
+        var user = await _repo.GetByIdAsync(userId, cancellationToken)
             ?? throw new UserNotFoundException();
 
         if (!_hasher.Verify(request.CurrentPassword, user.PasswordHash))
-            throw new InvalidCredentialsException();
+            throw new InvalidCurrentPasswordException();
 
         var newPasswordHash = _hasher.Hash(request.NewPassword);
 
-        await _repo.UpdatePasswordHash(userId, newPasswordHash);
+        await _repo.UpdatePasswordHash(userId, newPasswordHash, cancellationToken);
     }
 
-    public async Task<GetMeResponse> GetMeById(int userId)
+    public async Task<GetMeResponse> GetMeById(int userId, CancellationToken cancellationToken = default)
     {
-        var user = await _repo.GetByIdAsync(userId)
+        var user = await _repo.GetByIdAsync(userId, cancellationToken)
             ?? throw new UserNotFoundException();
 
         return new GetMeResponse

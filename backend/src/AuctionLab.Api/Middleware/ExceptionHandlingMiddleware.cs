@@ -36,6 +36,8 @@ public class ExceptionHandlingMiddleware
             InvalidCurrentPasswordException => StatusCodes.Status401Unauthorized,
             UserNotFoundException => StatusCodes.Status401Unauthorized,
             AuctionNotFoundException => StatusCodes.Status404NotFound,
+            ForbiddenException => StatusCodes.Status403Forbidden,
+            InvalidAuctionEndtimeException => StatusCodes.Status400BadRequest,
             _ => StatusCodes.Status500InternalServerError
         };
 
@@ -46,7 +48,9 @@ public class ExceptionHandlingMiddleware
             {
                 409 => "Conflict",
                 404 => "Not Found",
+                403 => "Forbidden",
                 401 => "Unauthorized",
+                400 => "Bad Request",
                 _ => "An unexpected error occurred"
             },
             Detail = ex.Message

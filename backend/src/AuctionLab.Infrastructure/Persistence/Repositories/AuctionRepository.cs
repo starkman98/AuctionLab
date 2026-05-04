@@ -20,19 +20,30 @@ public class AuctionRepository : IAuctionRepository
     }
 
     public async Task<Auction?> GetByIdAsync(int auctionId, CancellationToken cancellationToken = default)
-        => await _context.Auctions.FindAsync(auctionId, cancellationToken);
+        => await _context.Auctions
+        .Include(a => a.User)
+        .Include(a => a.Bids)
+        .ThenInclude(b => b.User)
+        .FirstOrDefaultAsync(a => a.AuctionId == auctionId, cancellationToken);
 
     public async Task<List<Auction>> GetByUserIdAsync(int userId, CancellationToken cancellationToken = default)
         => await _context.Auctions
-        .IgnoreQueryFilters()
+        .AsNoTracking()
         .Where(a => a.UserId == userId)
+        .Include(a => a.User)
+        .Include(a => a.Bids)
+        .ThenInclude(b => b.User)
         .OrderBy(a => a.EndTime)
         .ToListAsync(cancellationToken);
 
     public async Task<List<Auction>> GetOpenAsync(string? search, CancellationToken cancellationToken = default)
         => await _context.Auctions
-        .Where(a => a.IsOpen && a.Title
-        .Contains(search!))
+        .AsNoTracking()
+        .Where(a => a.EndTime > DateTimeOffset.UtcNow && a.InactivatedAt == null 
+            && (search == null || a.Title.Contains(search) || a.Description.Contains(search)))
+        .Include(a => a.User)
+        .Include(a => a.Bids)
+        .ThenInclude(b => b.User)
         .OrderBy(a => a.EndTime)
         .ToListAsync(cancellationToken);
 

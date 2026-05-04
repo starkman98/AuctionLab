@@ -146,13 +146,13 @@ PUT  /api/users/me/password
 
 ### Steg 3 – Auktioner
 
-- [ ] Skapa endpoint för att skapa auktion
-- [ ] Bara inloggad användare får skapa auktion
-- [ ] Koppla auktionen till inloggad användares id från JWT
-- [ ] Skapa endpoint för att söka/lista öppna auktioner
-- [ ] Bara auktioner där `EndDate > DateTime.UtcNow` ska räknas som öppna
-- [ ] Auktioner med `IsActive == false` ska inte visas i sökningar
-- [ ] Skapa endpoint för auktiondetaljer
+- [x] Skapa endpoint för att skapa auktion
+- [x] Bara inloggad användare får skapa auktion
+- [x] Koppla auktionen till inloggad användares id från JWT
+- [x] Skapa endpoint för att söka/lista öppna auktioner
+- [x] Bara auktioner där `EndDate > DateTime.UtcNow` ska räknas som öppna
+- [x] Auktioner med `IsActive == false` ska inte visas i sökningar
+- [x] Skapa endpoint för auktiondetaljer
 
 Rekommenderade endpoints:
 

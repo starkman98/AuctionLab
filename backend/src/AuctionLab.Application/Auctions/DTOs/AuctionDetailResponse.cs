@@ -12,6 +12,5 @@ public sealed class AuctionDetailResponse
     public DateTimeOffset StartTime { get; set; }
     public DateTimeOffset EndTime { get; set; }
     public bool IsOpen { get; set; }
-    //public List<BidSummaryResponse> Bids { get; set; } = [];
-
+    public List<BidSummaryResponse> Bids { get; set; } = [];
 }

@@ -184,10 +184,10 @@ DELETE /api/bids/{bidId}
 
 ### Steg 5 – VG: avslutade auktioner
 
-- [ ] Skapa stöd för att söka avslutade auktioner
-- [ ] Skilj på öppna och avslutade auktioner via query-param
-- [ ] För avslutad auktion: visa bara auktionsinfo och högsta vinnande bud
-- [ ] Visa inte full budhistorik på avslutade auktioner
+- [x] Skapa stöd för att söka avslutade auktioner
+- [x] Skilj på öppna och avslutade auktioner via query-param
+- [x] För avslutad auktion: visa bara auktionsinfo och högsta vinnande bud
+- [x] Visa inte full budhistorik på avslutade auktioner
 - [x] Tillåt inte bud på avslutad auktion
 
 Exempel:

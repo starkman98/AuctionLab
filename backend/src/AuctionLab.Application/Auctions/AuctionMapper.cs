@@ -18,13 +18,25 @@ public static class AuctionMapper
         StartTime = auction.StartTime,
         EndTime = auction.EndTime,
         IsOpen = auction.IsOpen,
-        Bids = auction.Bids.Select(b => new BidSummaryResponse
-        {
-            BidId = b.BidId,
-            Amount = b.Amount,
-            CreatedAt = b.CreatedAt,
-            BidderUsername = b.User.UserName
-        }).ToList()
+        Bids = auction.IsOpen || auction.Bids.Count == 0
+            ? auction.Bids.Select(b => new BidSummaryResponse
+                {
+                    BidId = b.BidId,
+                    Amount = b.Amount,
+                    CreatedAt = b.CreatedAt,
+                    BidderUsername = b.User.UserName
+                }).ToList()
+            : auction.Bids
+                .Where(b => b.Amount == auction.Bids.Max(x => x.Amount))
+                .Select(b => new BidSummaryResponse
+                {
+                    BidId = b.BidId,
+                    Amount = b.Amount,
+                    CreatedAt = b.CreatedAt,
+                    BidderUsername = b.User.UserName
+                })
+                .Take(1)
+                .ToList()
     };
 
     public static AuctionSummaryResponse ToSummaryResponse(Auction auction) => new()

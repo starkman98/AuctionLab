@@ -1,5 +1,6 @@
 using AuctionLab.Application.Repositories;
 using AuctionLab.Domain.Entities;
+using AuctionLab.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace AuctionLab.Infrastructure.Persistence.Repositories;
@@ -36,16 +37,27 @@ public class AuctionRepository : IAuctionRepository
         .OrderBy(a => a.EndTime)
         .ToListAsync(cancellationToken);
 
-    public async Task<List<Auction>> GetOpenAsync(string? search, CancellationToken cancellationToken = default)
-        => await _context.Auctions
-        .AsNoTracking()
-        .Where(a => a.EndTime > DateTimeOffset.UtcNow && a.InactivatedAt == null 
-            && (search == null || a.Title.Contains(search) || a.Description.Contains(search)))
-        .Include(a => a.User)
-        .Include(a => a.Bids)
-        .ThenInclude(b => b.User)
-        .OrderBy(a => a.EndTime)
-        .ToListAsync(cancellationToken);
+    public async Task<List<Auction>> SearchAsync(string? search, AuctionStatus status, CancellationToken cancellationToken = default)
+    {
+        var query = _context.Auctions.AsNoTracking().AsQueryable();
+
+        query = status switch
+        {
+            AuctionStatus.Open => query.Where(a => a.EndTime > DateTimeOffset.UtcNow),
+            AuctionStatus.Closed => query.Where(a => a.EndTime <= DateTimeOffset.UtcNow),
+            _ => query
+        };
+
+        if (search != null)
+            query = query.Where(a => a.Title.Contains(search) || a.Description.Contains(search));
+
+        return await query
+            .Include(a => a.User)
+            .Include(a => a.Bids)
+            .ThenInclude(b => b.User)
+            .OrderBy(a => a.EndTime)
+            .ToListAsync(cancellationToken);
+    }
 
     public async Task UpdateAsync(Auction auction, CancellationToken cancellationToken = default)
         => await _context.SaveChangesAsync(cancellationToken);

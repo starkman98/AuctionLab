@@ -2,18 +2,17 @@ using AuctionLab.Application.Auctions.DTOs;
 using AuctionLab.Application.Auctions.Exceptions;
 using AuctionLab.Application.Repositories;
 using AuctionLab.Domain.Entities;
+using AuctionLab.Domain.Enums;
 
 namespace AuctionLab.Application.Auctions;
 
 public class AuctionService : IAuctionService
 {
     private readonly IAuctionRepository _auctionRepo;
-    private readonly IUserRepository _userRepo; 
 
     public AuctionService(IAuctionRepository auctionRepo, IUserRepository userRepo)
     {
         _auctionRepo = auctionRepo;
-        _userRepo = userRepo;
     }
 
     public async Task<AuctionDetailResponse> CreateAsync(CreateAuctionRequest request, int userId, CancellationToken cancellationToken = default)
@@ -61,18 +60,11 @@ public class AuctionService : IAuctionService
         return auctionsResponse;
     }
 
-    public async Task<List<AuctionSummaryResponse>> GetOpenAsync(string? search, CancellationToken cancellationToken = default)
+    public async Task<List<AuctionSummaryResponse>> SearchAsync(string? search, AuctionStatus status, CancellationToken cancellationToken = default)
     {
-        var auctions = await _auctionRepo.GetOpenAsync(search, cancellationToken);
+        var auctions = await _auctionRepo.SearchAsync(search, status, cancellationToken);
 
-        var auctionsResponse = new List<AuctionSummaryResponse>();
-
-        foreach (var auction in auctions)
-        {
-            auctionsResponse.Add(AuctionMapper.ToSummaryResponse(auction));
-        }
-
-        return auctionsResponse;
+        return auctions.Select(auction => AuctionMapper.ToSummaryResponse(auction)).ToList();
     }
 
     public async Task<AuctionDetailResponse> UpdateAsync(UpdateAuctionRequest request, int auctionId, int userId, CancellationToken cancellationToken = default)

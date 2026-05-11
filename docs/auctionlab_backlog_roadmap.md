@@ -133,7 +133,7 @@ public class Bid
 - [x] Skapa JWT-token vid lyckad login
 - [x] Lägg in claims: userId, email, role
 - [x] Konfigurera JWT Bearer i `Program.cs`
-- [ ] Testa skyddad endpoint med `[Authorize]`
+- [x] Testa skyddad endpoint med `[Authorize]`
 
 Rekommenderade endpoints:
 
@@ -165,14 +165,14 @@ PUT  /api/auctions/{id}
 
 ### Steg 4 – Bud
 
-- [ ] Skapa endpoint för att lägga bud
-- [ ] Kontrollera att användaren är inloggad
-- [ ] Kontrollera att auktionen är öppen
-- [ ] Kontrollera att auktionen är aktiv
-- [ ] Kontrollera att användaren inte äger auktionen
-- [ ] Kontrollera att budet är högre än nuvarande högsta bud
-- [ ] Spara bud med datum och användare
-- [ ] Returnera tydligt felmeddelande om budet är för lågt
+- [x] Skapa endpoint för att lägga bud
+- [x] Kontrollera att användaren är inloggad
+- [x] Kontrollera att auktionen är öppen
+- [x] Kontrollera att auktionen är aktiv
+- [x] Kontrollera att användaren inte äger auktionen
+- [x] Kontrollera att budet är högre än nuvarande högsta bud
+- [x] Spara bud med datum och användare
+- [x] Returnera tydligt felmeddelande om budet är för lågt
 
 Rekommenderade endpoints:
 
@@ -188,7 +188,7 @@ DELETE /api/bids/{bidId}
 - [ ] Skilj på öppna och avslutade auktioner via query-param
 - [ ] För avslutad auktion: visa bara auktionsinfo och högsta vinnande bud
 - [ ] Visa inte full budhistorik på avslutade auktioner
-- [ ] Tillåt inte bud på avslutad auktion
+- [x] Tillåt inte bud på avslutad auktion
 
 Exempel:
 
@@ -199,18 +199,18 @@ GET /api/auctions?search=cykel&status=closed
 
 ### Steg 6 – VG: uppdatera auktion
 
-- [ ] Endast ägaren får uppdatera sin auktion
+- [x] Endast ägaren får uppdatera sin auktion
 - [ ] Admin kan eventuellt få större rättigheter, men håll det tydligt
-- [ ] Om auktionen redan har bud får priset inte ändras
+- [x] Om auktionen redan har bud får priset inte ändras
 - [ ] Titel, beskrivning och datum kan uppdateras enligt rimliga regler
 - [ ] Returnera felmeddelande om användaren försöker ändra pris när bud finns
 
 ### Steg 7 – VG: ångra bud
 
-- [ ] Användaren får bara ta bort sitt eget bud
-- [ ] Budet får bara tas bort om auktionen fortfarande är öppen
-- [ ] Budet får bara tas bort om det är senaste/högsta budet
-- [ ] Returnera tydligt fel om det inte går
+- [x] Användaren får bara ta bort sitt eget bud
+- [x] Budet får bara tas bort om auktionen fortfarande är öppen
+- [x] Budet får bara tas bort om det är senaste/högsta budet
+- [x] Returnera tydligt fel om det inte går
 
 ### Steg 8 – VG: admin
 

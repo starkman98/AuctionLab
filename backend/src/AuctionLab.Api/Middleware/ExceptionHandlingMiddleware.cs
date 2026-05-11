@@ -1,5 +1,6 @@
 using AuctionLab.Application.Auctions.Exceptions;
 using AuctionLab.Application.Auth.Exceptions;
+using AuctionLab.Application.Bids.Exceptions;
 using AuctionLab.Application.Users.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 
@@ -38,6 +39,13 @@ public class ExceptionHandlingMiddleware
             AuctionNotFoundException => StatusCodes.Status404NotFound,
             ForbiddenException => StatusCodes.Status403Forbidden,
             InvalidAuctionEndtimeException => StatusCodes.Status400BadRequest,
+            BidNotFoundException => StatusCodes.Status404NotFound,
+            BidTooLowException => StatusCodes.Status400BadRequest,
+            CanNotBidOnOwnAuctionException => StatusCodes.Status403Forbidden,
+            NotBidOwnerException => StatusCodes.Status403Forbidden,
+            NotLatestBidException => StatusCodes.Status400BadRequest,
+            AuctionNotOpenException => StatusCodes.Status400BadRequest,
+            BidConflictException => StatusCodes.Status409Conflict,
             _ => StatusCodes.Status500InternalServerError
         };
 

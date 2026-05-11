@@ -1,3 +1,5 @@
+using AuctionLab.Application.Bids.DTOs;
+
 namespace AuctionLab.Application.Auctions.DTOs;
 
 public sealed class AuctionDetailResponse

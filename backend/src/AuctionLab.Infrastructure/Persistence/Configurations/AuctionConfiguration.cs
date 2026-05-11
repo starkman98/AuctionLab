@@ -42,6 +42,9 @@ public class AuctionConfiguration : IEntityTypeConfiguration<Auction>
             .HasForeignKey(u => u.UserId)
             .OnDelete(DeleteBehavior.Restrict);
 
+        builder.Property(a => a.RowVersion)
+            .IsRowVersion();
+
         builder.HasQueryFilter(a => a.InactivatedAt == null);
     }
 }

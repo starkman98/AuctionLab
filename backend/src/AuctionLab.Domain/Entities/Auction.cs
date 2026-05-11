@@ -19,4 +19,7 @@ public class Auction
     public User User { get; set; } = null!;
 
     public List<Bid> Bids { get; set; } = [];
+
+    public DateTimeOffset? LastBidAt { get; set; }
+    public byte[] RowVersion { get; set; } = [];
 }

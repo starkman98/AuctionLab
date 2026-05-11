@@ -1,4 +1,5 @@
 using AuctionLab.Application.Auctions.DTOs;
+using AuctionLab.Application.Bids.DTOs;
 using AuctionLab.Domain.Entities;
 
 namespace AuctionLab.Application.Auctions;

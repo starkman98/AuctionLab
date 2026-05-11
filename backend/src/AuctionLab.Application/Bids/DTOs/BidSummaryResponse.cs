@@ -1,4 +1,4 @@
-namespace AuctionLab.Application.Auctions.DTOs;
+namespace AuctionLab.Application.Bids.DTOs;
 
 public sealed class BidSummaryResponse
 {

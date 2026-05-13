@@ -27,6 +27,9 @@ public class AuthService : IAuthService
         if (!_hasher.Verify(request.Password, user.PasswordHash))
             throw new InvalidCredentialsException();
 
+        if (!user.IsActive)
+            throw new InactivatedUserException();
+
         var token = _tokenService.CreateToken(user);
         var tokenExpirationTime = _tokenService.GetExpirationTimeUtc(token);
 

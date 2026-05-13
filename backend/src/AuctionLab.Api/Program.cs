@@ -1,3 +1,4 @@
+using AuctionLab.Api.Extensions;
 using AuctionLab.Api.Middleware;
 using AuctionLab.Application.Auctions;
 using AuctionLab.Application.Auth;
@@ -91,6 +92,8 @@ builder.Services.AddScoped<IPasswordHasher, BcryptPasswordHasher>();
 var app = builder.Build();
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
+
+await app.SeedAdminAsync();
 
 app.UseSwagger();
 app.UseSwaggerUI();

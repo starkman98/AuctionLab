@@ -34,4 +34,16 @@ public class UserRepository : IUserRepository
 
     public async Task<bool> UsernameExistsAsync(string username, CancellationToken cancellationToken = default)
         => await _context.Users.AnyAsync(u => u.UserName == username, cancellationToken);
+
+    public async Task UpdateAsync(User user, CancellationToken cancellationToken = default)
+        => await _context.SaveChangesAsync(cancellationToken);
+
+    public async Task<List<User>> GetAllAsync(int page, int pageSize, CancellationToken cancellationToken = default)
+        => await _context.Users
+        .IgnoreQueryFilters()
+        .AsNoTracking()
+        .OrderBy(u => u.UserName)
+        .Skip((page - 1) * pageSize)
+        .Take(pageSize)
+        .ToListAsync(cancellationToken);
 }

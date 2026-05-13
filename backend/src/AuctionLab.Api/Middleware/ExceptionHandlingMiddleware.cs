@@ -1,3 +1,4 @@
+using AuctionLab.Application.Admin.Exceptions;
 using AuctionLab.Application.Auctions.Exceptions;
 using AuctionLab.Application.Auth.Exceptions;
 using AuctionLab.Application.Bids.Exceptions;
@@ -46,6 +47,8 @@ public class ExceptionHandlingMiddleware
             NotLatestBidException => StatusCodes.Status400BadRequest,
             AuctionNotOpenException => StatusCodes.Status400BadRequest,
             BidConflictException => StatusCodes.Status409Conflict,
+            InactivatedUserException => StatusCodes.Status403Forbidden,
+            InvalidRoleException => StatusCodes.Status400BadRequest,
             _ => StatusCodes.Status500InternalServerError
         };
 

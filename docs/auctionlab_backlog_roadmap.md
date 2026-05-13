@@ -214,12 +214,12 @@ GET /api/auctions?search=cykel&status=closed
 
 ### Steg 8 – VG: admin
 
-- [ ] Skapa adminroll
-- [ ] Seed:a gärna en adminanvändare
-- [ ] Admin kan inaktivera auktion
-- [ ] Inaktiverad auktion ska inte synas i sökningar
-- [ ] Admin kan inaktivera användarkonto
-- [ ] Inaktiverad användare ska inte kunna logga in
+- [x] Skapa adminroll
+- [x] Seed:a gärna en adminanvändare
+- [x] Admin kan inaktivera auktion
+- [x] Inaktiverad auktion ska inte synas i sökningar
+- [x] Admin kan inaktivera användarkonto
+- [x] Inaktiverad användare ska inte kunna logga in
 
 Rekommenderade endpoints:
 

@@ -6,7 +6,7 @@ namespace AuctionLab.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AppControllerBase : ControllerBase
+    public abstract class AppControllerBase : ControllerBase
     {
         protected bool TryGetUserId(out int userId)
             => int.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out userId);

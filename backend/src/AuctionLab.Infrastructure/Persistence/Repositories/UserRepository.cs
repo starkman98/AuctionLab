@@ -14,7 +14,8 @@ public class UserRepository : IUserRepository
     }
 
     public async Task<User?> GetByIdAsync(int userId, CancellationToken cancellationToken = default)
-        => await _context.Users.FindAsync(new object[] { userId }, cancellationToken);
+        => await _context.Users.FirstOrDefaultAsync(u => u.UserId == userId, cancellationToken);
+
 
     public async Task AddAsync(User user, CancellationToken cancellationToken = default)
     {
@@ -46,4 +47,9 @@ public class UserRepository : IUserRepository
         .Skip((page - 1) * pageSize)
         .Take(pageSize)
         .ToListAsync(cancellationToken);
+
+    public async Task<User?> GetByIdIncludingInactiveAsync(int userId, CancellationToken cancellationToken = default)
+        => await _context.Users
+        .IgnoreQueryFilters()
+        .FirstOrDefaultAsync(u => u.UserId == userId, cancellationToken);
 }

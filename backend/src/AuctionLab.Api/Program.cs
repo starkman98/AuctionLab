@@ -1,5 +1,6 @@
 using AuctionLab.Api.Extensions;
 using AuctionLab.Api.Middleware;
+using AuctionLab.Application.Admin;
 using AuctionLab.Application.Auctions;
 using AuctionLab.Application.Auth;
 using AuctionLab.Application.Bids;
@@ -83,6 +84,8 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAuctionService, AuctionService>();
 builder.Services.AddScoped<IBidService, BidService>();
+builder.Services.AddScoped<IAdminAuctionService, AdminAuctionService>();
+builder.Services.AddScoped<IAdminUserService, AdminUserService>();
 
 builder.Services.AddScoped<IBidRepository, BidRepository>();
 builder.Services.AddScoped<IAuctionRepository, AuctionRepository>();

@@ -6,8 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AuctionLab.Api.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
     public class AuthController : AppControllerBase
     {
         private readonly IAuthService _authService;
@@ -22,7 +20,7 @@ namespace AuctionLab.Api.Controllers
         {
             var response = await _authService.RegisterAsync(request, cancellationToken);
 
-            return CreatedAtAction(nameof(Login), response);
+            return StatusCode(201, response);
         }
 
         [HttpPost("login")]

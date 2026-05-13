@@ -56,7 +56,7 @@ public class AuctionRepository : IAuctionRepository
         .OrderBy(a => a.EndTime)
         .ToListAsync(cancellationToken);
 
-    public async Task<List<Auction>> SearchAsync(string? search, int page, int pageSize, AuctionStatus status, CancellationToken cancellationToken = default)
+    public async Task<List<Auction>> SearchAsync(string? search, AuctionStatus status, int page, int pageSize, CancellationToken cancellationToken = default)
     {
         var query = _context.Auctions.AsNoTracking().AsQueryable();
 

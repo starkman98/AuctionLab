@@ -42,10 +42,16 @@ public class BidService : IBidService
 
         var currentHighestBid = auction.Bids.OrderByDescending(b => b.Amount).FirstOrDefault();
 
-        var minimumBid = currentHighestBid?.Amount ?? auction.StartingPrice;
-
-        if (request.Amount <= minimumBid)
-            throw new BidTooLowException();
+        if (currentHighestBid == null)
+        {
+            if (request.Amount < auction.StartingPrice)
+                throw new BidTooLowException();
+        }
+        else
+        {
+            if (request.Amount <= currentHighestBid.Amount)
+                throw new BidTooLowException();
+        }
 
         var bid = new Bid
         {

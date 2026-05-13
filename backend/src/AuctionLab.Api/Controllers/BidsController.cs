@@ -1,5 +1,6 @@
 using AuctionLab.Application.Bids;
 using AuctionLab.Application.Bids.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuctionLab.Api.Controllers;
@@ -21,6 +22,7 @@ public class BidsController : AppControllerBase
         return Ok(response);
     }
 
+    [Authorize]
     [HttpPost("/api/auctions/{auctionId}/bids")]
     public async Task<ActionResult<BidSummaryResponse>> PlaceBid(PlaceBidRequest request, int auctionId, CancellationToken cancellationToken = default)
     {
@@ -32,6 +34,7 @@ public class BidsController : AppControllerBase
         return CreatedAtAction(nameof(PlaceBid), new { id = response.BidId }, response);
     }
 
+    [Authorize]
     [HttpDelete("{bidId}")]
     public async Task<IActionResult> RetractBid(int bidId, CancellationToken cancellationToken = default)
     {

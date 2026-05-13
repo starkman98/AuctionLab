@@ -32,8 +32,8 @@ public class AuctionsController : AppControllerBase
     public async Task<ActionResult<List<AuctionSummaryResponse>>> GetAuctions(
         [FromQuery] string? search, 
         [FromQuery] AuctionStatus? status,
-        [FromQuery] int page,
-        [FromQuery] int pageSize,
+        [FromQuery] int page = 1,
+        [FromQuery] int pageSize = 20,
         CancellationToken cancellationToken = default)
     {
         var resolvedStatus = status ?? AuctionStatus.Open;
@@ -44,8 +44,7 @@ public class AuctionsController : AppControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<AuctionDetailResponse>> GetAuction(int id, CancellationToken cancellationToken = default)
     {
-        var response = await _service.GetByIdAsync(id, cancellationToken)
-            ?? throw new AuctionNotFoundException();
+        var response = await _service.GetByIdAsync(id, cancellationToken);
 
         return Ok(response);
     }

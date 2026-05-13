@@ -39,7 +39,7 @@ namespace AuctionLab.Api.Controllers
             return Ok(response);
         }
 
-        [HttpDelete("{userId}")]
+        [HttpPut("{userId}/inactivate")]
         public async Task<ActionResult<AdminUserResponse>> Inactivate(int userId, CancellationToken cancellationToken = default)
         {
             if (!TryGetUserId(out int requestingAdminId))

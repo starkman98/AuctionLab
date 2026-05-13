@@ -25,7 +25,7 @@ namespace AuctionLab.Api.Controllers
             return Ok(response);
         }
 
-        [HttpDelete("{auctionId}")]
+        [HttpPut("{auctionId}/inactivate")]
         public async Task<ActionResult<AdminAuctionResponse>> Inactivate(int auctionId, CancellationToken cancellationToken = default)
         {
             var response = await _service.InactivateAsync(auctionId, cancellationToken);

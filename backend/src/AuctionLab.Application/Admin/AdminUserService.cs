@@ -23,7 +23,7 @@ public class AdminUserService : IAdminUserService
         if (userId == requestingAdminId)
             throw new ForbiddenException();
 
-        var user = await _repo.GetByIdAsync(userId, cancellationToken)
+        var user = await _repo.GetByIdIncludingInactiveAsync(userId, cancellationToken)
             ?? throw new AdminUserNotFoundException();
 
         if (user.Role == UserRoles.Admin)
@@ -41,7 +41,7 @@ public class AdminUserService : IAdminUserService
         if (userId == requestingAdminId)
             throw new ForbiddenException();
 
-        var user = await _repo.GetByIdAsync(userId, cancellationToken)
+        var user = await _repo.GetByIdIncludingInactiveAsync(userId, cancellationToken)
             ?? throw new AdminUserNotFoundException();
 
         if (user.Role == UserRoles.Admin)
@@ -69,7 +69,7 @@ public class AdminUserService : IAdminUserService
 
     public async Task<AdminUserResponse> ReactivateAsync(int userId, CancellationToken cancellationToken = default)
     {
-        var user = await _repo.GetByIdAsync(userId, cancellationToken)
+        var user = await _repo.GetByIdIncludingInactiveAsync(userId, cancellationToken)
             ?? throw new AdminUserNotFoundException();
 
         if (user.InactivatedAt is null)

@@ -8,11 +8,11 @@ namespace AuctionLab.Application.Auctions;
 
 public class AuctionService : IAuctionService
 {
-    private readonly IAuctionRepository _auctionRepo;
+    private readonly IAuctionRepository _repo;
 
-    public AuctionService(IAuctionRepository auctionRepo, IUserRepository userRepo)
+    public AuctionService(IAuctionRepository auctionRepo)
     {
-        _auctionRepo = auctionRepo;
+        _repo = auctionRepo;
     }
 
     public async Task<AuctionDetailResponse> CreateAsync(CreateAuctionRequest request, int userId, CancellationToken cancellationToken = default)
@@ -30,9 +30,9 @@ public class AuctionService : IAuctionService
             UserId = userId
         };
 
-        await _auctionRepo.AddAsync(newAuction, cancellationToken);
+        await _repo.AddAsync(newAuction, cancellationToken);
 
-        var createdAuction = await _auctionRepo.GetByIdAsync(newAuction.AuctionId, cancellationToken)
+        var createdAuction = await _repo.GetByIdAsync(newAuction.AuctionId, cancellationToken)
             ?? throw new AuctionNotFoundException();
 
         return AuctionMapper.ToDetailResponse(createdAuction);
@@ -40,7 +40,7 @@ public class AuctionService : IAuctionService
 
     public async Task<AuctionDetailResponse> GetByIdAsync(int auctionId, CancellationToken cancellationToken = default)
     {
-        var auction = await _auctionRepo.GetByIdAsync(auctionId, cancellationToken)
+        var auction = await _repo.GetByIdAsync(auctionId, cancellationToken)
             ?? throw new AuctionNotFoundException();
 
         return AuctionMapper.ToDetailResponse(auction);
@@ -48,7 +48,7 @@ public class AuctionService : IAuctionService
 
     public async Task<List<AuctionSummaryResponse>> GetByUserIdAsync(int userId, CancellationToken cancellationToken = default)
     {
-        var auctions = await _auctionRepo.GetByUserIdAsync(userId, cancellationToken);
+        var auctions = await _repo.GetByUserIdAsync(userId, cancellationToken);
 
         var auctionsResponse = new List<AuctionSummaryResponse>();
 
@@ -70,14 +70,14 @@ public class AuctionService : IAuctionService
         page = Math.Max(1, page);
         pageSize = Math.Clamp(pageSize, 1, 100);
 
-        var auctions = await _auctionRepo.SearchAsync(search, status, page, pageSize, cancellationToken);
+        var auctions = await _repo.SearchAsync(search, status, page, pageSize, cancellationToken);
 
         return auctions.Select(auction => AuctionMapper.ToSummaryResponse(auction)).ToList();
     }
 
     public async Task<AuctionDetailResponse> UpdateAsync(UpdateAuctionRequest request, int auctionId, int userId, CancellationToken cancellationToken = default)
     {
-        var auction = await _auctionRepo.GetByIdAsync(auctionId, cancellationToken)
+        var auction = await _repo.GetByIdAsync(auctionId, cancellationToken)
             ?? throw new AuctionNotFoundException();
 
         if (auction.UserId != userId)
@@ -86,9 +86,9 @@ public class AuctionService : IAuctionService
         auction.Title = request.Title;
         auction.Description = request.Description;
 
-        await _auctionRepo.UpdateAsync(auction, cancellationToken);
+        await _repo.UpdateAsync(auction, cancellationToken);
 
-        var updatedAuction = await _auctionRepo.GetByIdAsync(auction.AuctionId, cancellationToken)
+        var updatedAuction = await _repo.GetByIdAsync(auction.AuctionId, cancellationToken)
             ?? throw new AuctionNotFoundException();
 
         return AuctionMapper.ToDetailResponse(updatedAuction);

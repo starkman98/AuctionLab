@@ -43,7 +43,7 @@ public class AdminAuctionService : IAdminAuctionService
         var auction = await _repo.GetByIdIncludingInactiveAsync(auctionId, cancellationToken)
             ?? throw new AuctionNotFoundException();
 
-        if (auction.InactivatedAt is null)
+        if (auction.InactivatedAt is null || !auction.IsOpen)
             return AdminMapper.ToAuctionResponse(auction);
 
         auction.InactivatedAt = null;

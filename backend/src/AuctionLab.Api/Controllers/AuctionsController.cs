@@ -2,7 +2,6 @@ using AuctionLab.Application.Auctions;
 using AuctionLab.Application.Auctions.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using AuctionLab.Application.Users.Exceptions;
 using AuctionLab.Application.Auctions.Exceptions;
 using AuctionLab.Domain.Enums;
 
@@ -32,11 +31,13 @@ public class AuctionsController : AppControllerBase
     [HttpGet]
     public async Task<ActionResult<List<AuctionSummaryResponse>>> GetAuctions(
         [FromQuery] string? search, 
-        [FromQuery] AuctionStatus? status, 
+        [FromQuery] AuctionStatus? status,
+        [FromQuery] int page,
+        [FromQuery] int pageSize,
         CancellationToken cancellationToken = default)
     {
         var resolvedStatus = status ?? AuctionStatus.Open;
-        var response = await _service.SearchAsync(search, resolvedStatus, cancellationToken);
+        var response = await _service.SearchAsync(search, resolvedStatus, page, pageSize, cancellationToken);
         return Ok(response);
     }
 

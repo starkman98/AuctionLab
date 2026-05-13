@@ -6,7 +6,7 @@ namespace AuctionLab.Application.Auctions;
 
 public interface IAuctionService
 {
-    Task<List<AuctionSummaryResponse>> SearchAsync(string? search, AuctionStatus status, CancellationToken cancellationToken = default);
+    Task<List<AuctionSummaryResponse>> SearchAsync(string? search, AuctionStatus status, int page, int pageSize, CancellationToken cancellationToken = default);
     Task<List<AuctionSummaryResponse>> GetByUserIdAsync(int userId, CancellationToken cancellationToken = default);
     Task<AuctionDetailResponse> GetByIdAsync(int auctionId, CancellationToken cancellationToken = default);
     Task<AuctionDetailResponse> CreateAsync(CreateAuctionRequest request, int userId, CancellationToken cancellationToken = default);

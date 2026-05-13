@@ -56,7 +56,7 @@ public class AuctionRepository : IAuctionRepository
         .OrderBy(a => a.EndTime)
         .ToListAsync(cancellationToken);
 
-    public async Task<List<Auction>> SearchAsync(string? search, AuctionStatus status, CancellationToken cancellationToken = default)
+    public async Task<List<Auction>> SearchAsync(string? search, int page, int pageSize, AuctionStatus status, CancellationToken cancellationToken = default)
     {
         var query = _context.Auctions.AsNoTracking().AsQueryable();
 
@@ -75,6 +75,8 @@ public class AuctionRepository : IAuctionRepository
             .Include(a => a.Bids)
             .ThenInclude(b => b.User)
             .OrderBy(a => a.EndTime)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
             .ToListAsync(cancellationToken);
     }
 

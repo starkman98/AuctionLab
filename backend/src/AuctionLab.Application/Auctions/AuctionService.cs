@@ -60,9 +60,17 @@ public class AuctionService : IAuctionService
         return auctionsResponse;
     }
 
-    public async Task<List<AuctionSummaryResponse>> SearchAsync(string? search, AuctionStatus status, CancellationToken cancellationToken = default)
+    public async Task<List<AuctionSummaryResponse>> SearchAsync(
+        string? search,
+        AuctionStatus status,
+        int page,
+        int pageSize,
+        CancellationToken cancellationToken = default)
     {
-        var auctions = await _auctionRepo.SearchAsync(search, status, cancellationToken);
+        page = Math.Max(1, page);
+        pageSize = Math.Clamp(pageSize, 1, 100);
+
+        var auctions = await _auctionRepo.SearchAsync(search, status, page, pageSize, cancellationToken);
 
         return auctions.Select(auction => AuctionMapper.ToSummaryResponse(auction)).ToList();
     }

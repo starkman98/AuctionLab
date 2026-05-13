@@ -15,7 +15,7 @@ public class AdminAuctionService : IAdminAuctionService
 
     public async Task<AdminAuctionResponse> InactivateAsync(int auctionId, CancellationToken cancellationToken = default)
     {
-        var auction = await _repo.GetByIdAsync(auctionId, cancellationToken)
+        var auction = await _repo.GetByIdIncludingInactiveAsync(auctionId, cancellationToken)
             ?? throw new AuctionNotFoundException();
 
         if (auction.InactivatedAt is not null)
@@ -30,6 +30,9 @@ public class AdminAuctionService : IAdminAuctionService
 
     public async Task<List<AdminAuctionResponse>> GetAllAsync(int page, int pageSize, CancellationToken cancellationToken = default)
     {
+        page = Math.Max(1, page);
+        pageSize = Math.Clamp(pageSize, 1, 100);
+
         var auctions = await _repo.GetAllAsync(page, pageSize, cancellationToken);
 
         return auctions.Select(auction => AdminMapper.ToAuctionResponse(auction)).ToList();
@@ -37,7 +40,7 @@ public class AdminAuctionService : IAdminAuctionService
 
     public async Task<AdminAuctionResponse> ReactivateAsync(int auctionId, CancellationToken cancellationToken = default)
     {
-        var auction = await _repo.GetByIdAsync(auctionId, cancellationToken)
+        var auction = await _repo.GetByIdIncludingInactiveAsync(auctionId, cancellationToken)
             ?? throw new AuctionNotFoundException();
 
         if (auction.InactivatedAt is null)

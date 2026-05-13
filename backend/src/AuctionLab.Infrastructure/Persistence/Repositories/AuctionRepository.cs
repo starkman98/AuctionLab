@@ -38,6 +38,14 @@ public class AuctionRepository : IAuctionRepository
         .ThenInclude(b => b.User)
         .FirstOrDefaultAsync(a => a.AuctionId == auctionId, cancellationToken);
 
+    public async Task<Auction?> GetByIdIncludingInactiveAsync(int auctionId, CancellationToken cancellationToken = default)
+        => await _context.Auctions
+        .IgnoreQueryFilters()
+        .Include(a => a.User)
+        .Include(a => a.Bids)
+        .ThenInclude(b => b.User)
+        .FirstOrDefaultAsync(a => a.AuctionId == auctionId, cancellationToken);
+
     public async Task<List<Auction>> GetByUserIdAsync(int userId, CancellationToken cancellationToken = default)
         => await _context.Auctions
         .AsNoTracking()

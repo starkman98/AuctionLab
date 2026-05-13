@@ -12,4 +12,5 @@ public interface IAuctionRepository
     Task AddAsync(Auction auction, CancellationToken cancellationToken = default);
     Task UpdateAsync(Auction auction, CancellationToken cancellationToken = default);
     Task<List<Auction>> GetAllAsync(int page, int pageSize, CancellationToken cancellationToken = default);
+    Task<Auction?> GetByIdIncludingInactiveAsync(int auctionId, CancellationToken cancellationToken = default);
 }

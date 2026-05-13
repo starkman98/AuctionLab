@@ -16,8 +16,8 @@ namespace AuctionLab.Api.Controllers
 
         [HttpGet]
         public async Task<ActionResult<List<AdminUserResponse>>> GetUsers(
-            [FromQuery] int page, 
-            [FromQuery] int pageSize, 
+            [FromQuery] int page = 1, 
+            [FromQuery] int pageSize = 20, 
             CancellationToken cancellationToken = default)
         {
             var response = await _service.GetAllAsync(page, pageSize, cancellationToken);
@@ -31,7 +31,10 @@ namespace AuctionLab.Api.Controllers
             [FromBody] ChangeRoleRequest request, 
             CancellationToken cancellationToken = default)
         {
-            var response = await _service.ChangeRoleAsync(userId, request, cancellationToken);
+            if (!TryGetUserId(out int requestingAdminId))
+                return Unauthorized();
+
+            var response = await _service.ChangeRoleAsync(userId, requestingAdminId, request, cancellationToken);
 
             return Ok(response);
         }
@@ -39,7 +42,10 @@ namespace AuctionLab.Api.Controllers
         [HttpDelete("{userId}")]
         public async Task<ActionResult<AdminUserResponse>> Inactivate(int userId, CancellationToken cancellationToken = default)
         {
-            var response = await _service.InactivateAsync(userId, cancellationToken);
+            if (!TryGetUserId(out int requestingAdminId))
+                return Unauthorized();
+
+            var response = await _service.InactivateAsync(userId, requestingAdminId, cancellationToken);
 
             return Ok(response);
         }

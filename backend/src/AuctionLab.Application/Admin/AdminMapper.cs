@@ -25,7 +25,7 @@ public static class AdminMapper
         StartingPrice = auction.StartingPrice,
         CurrentHighestBid = auction.Bids.Count > 0 ? auction.Bids.Max(b => b.Amount) : null,
         StartTime = auction.StartTime,
-        EndTIme = auction.EndTime,
+        EndTime = auction.EndTime,
         OwnerUsername = auction.User.UserName,
         BidCount = auction.Bids.Count,
         IsActive = auction.IsActive,

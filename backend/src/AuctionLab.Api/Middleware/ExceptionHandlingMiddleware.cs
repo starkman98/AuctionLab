@@ -49,6 +49,7 @@ public class ExceptionHandlingMiddleware
             BidConflictException => StatusCodes.Status409Conflict,
             InactivatedUserException => StatusCodes.Status403Forbidden,
             InvalidRoleException => StatusCodes.Status400BadRequest,
+            AdminUserNotFoundException => StatusCodes.Status404NotFound,
             _ => StatusCodes.Status500InternalServerError
         };
 

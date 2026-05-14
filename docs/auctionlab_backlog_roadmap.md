@@ -234,8 +234,8 @@ PUT /api/admin/users/{id}/deactivate
 
 ### Steg 1 – Grundstruktur
 
-- [ ] Skapa React + TypeScript + Vite-projekt
-- [ ] Installera React Router
+- [x] Skapa React + TypeScript + Vite-projekt
+- [x] Installera React Router
 - [ ] Skapa grundlayout med header/nav/footer
 - [ ] Skapa sidor:
   - Home

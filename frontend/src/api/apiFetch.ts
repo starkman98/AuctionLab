@@ -1,3 +1,5 @@
+import { ApiError } from "@/types/apiError";
+
 export const apiFetch = async <T>(
   path: string,
   options?: RequestInit,
@@ -9,8 +11,26 @@ export const apiFetch = async <T>(
   });
 
   if (!response.ok) {
-    const error = await response.json().catch(() => ({}));
-    throw new Error(error.message ?? `HTTP ${response.status}`);
+    const body = await response.json().catch(() => ({}));
+
+    // ASP.NET validation errors: ProblemDetails with an "errors" dict
+    if (body.errors && typeof body.errors === "object") {
+      throw new ApiError(
+        body.title ?? "One or more validation errors occurred.",
+        response.status,
+        body.errors as Record<string, string[]>,
+      );
+    }
+
+    // Application exceptions: ProblemDetails with a "detail" string
+    if (body.detail) {
+      throw new ApiError(body.detail as string, response.status);
+    }
+
+    throw new ApiError(
+      body.title ?? `${response.status} ${response.statusText}`,
+      response.status,
+    );
   }
 
   return response.status === 204 ? (undefined as T) : response.json();

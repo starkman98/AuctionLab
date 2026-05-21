@@ -1,4 +1,5 @@
 import { loginApi } from "@/api/authApi";
+import { ApiError } from "@/types/apiError";
 import { getMe } from "@/api/userApi";
 import { useAuth } from "@/hooks/useAuth";
 import type { LoginRequest } from "@/types/auth";
@@ -14,6 +15,7 @@ const LoginPage = () => {
     password: "",
   });
   const [error, setError] = useState<string | null>(null);
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
@@ -21,6 +23,7 @@ const LoginPage = () => {
 
   const handleSubmit = async () => {
     setError(null);
+    setFieldErrors({});
     setIsSubmitting(true);
 
     try {
@@ -29,11 +32,16 @@ const LoginPage = () => {
       setUser(user);
       navigate("/auctions");
     } catch (error) {
-      setError(error instanceof Error ? error.message : "Login failed");
+      if (error instanceof ApiError && error.fieldErrors) {
+        setFieldErrors(error.fieldErrors);
+      } else {
+        setError(error instanceof Error ? error.message : "Login failed");
+      }
     } finally {
       setIsSubmitting(false);
     }
   };
+
   return (
     <form
       onSubmit={(e) => {
@@ -48,6 +56,9 @@ const LoginPage = () => {
         placeholder="Username"
         type="text"
       />
+      {fieldErrors.UserName?.map((msg) => (
+        <p key={msg}>{msg}</p>
+      ))}
       <input
         name="password"
         value={form.password}
@@ -55,6 +66,9 @@ const LoginPage = () => {
         placeholder="Password"
         type="password"
       />
+      {fieldErrors.Password?.map((msg) => (
+        <p key={msg}>{msg}</p>
+      ))}
       {error && <p>{error}</p>}
       <button type="submit" disabled={isSubmitting}>
         {isSubmitting ? "Loggar in..." : "Logga in"}

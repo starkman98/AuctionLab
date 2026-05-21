@@ -10,6 +10,7 @@ export interface AdminAuctionResponse {
   bidCount: number;
   isActive: boolean;
   inactivatedAt: string | null;
+  imageUrl: string | null;
 }
 
 export interface AdminUserResponse {

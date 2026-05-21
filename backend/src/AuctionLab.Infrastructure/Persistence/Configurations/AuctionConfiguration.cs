@@ -42,6 +42,9 @@ public class AuctionConfiguration : IEntityTypeConfiguration<Auction>
             .HasForeignKey(u => u.UserId)
             .OnDelete(DeleteBehavior.Restrict);
 
+        builder.Property(a => a.ImageUrl)
+            .HasMaxLength(2048);
+
         builder.Property(a => a.RowVersion)
             .IsRowVersion();
 

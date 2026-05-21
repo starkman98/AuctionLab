@@ -10,6 +10,7 @@ public class Auction
     public DateTimeOffset StartTime { get; set; } = DateTimeOffset.UtcNow;
     public DateTimeOffset EndTime { get; set; }
     public DateTimeOffset? InactivatedAt { get; set; }
+    public string? ImageUrl { get; set; }
 
     public bool IsOpen => EndTime > DateTimeOffset.UtcNow && InactivatedAt == null;
     public bool IsClosed => EndTime <= DateTimeOffset.UtcNow;

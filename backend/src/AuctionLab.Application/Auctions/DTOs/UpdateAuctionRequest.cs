@@ -11,4 +11,8 @@ public sealed class UpdateAuctionRequest
 
     [MaxLength(4000)]
     public string Description { get; set; } = string.Empty;
+
+    [Url]
+    [MaxLength(2048)]
+    public string? ImageUrl { get; set; }
 }

@@ -14,5 +14,6 @@ public sealed class AuctionDetailResponse
     public DateTimeOffset StartTime { get; set; }
     public DateTimeOffset EndTime { get; set; }
     public bool IsOpen { get; set; }
+    public string? ImageUrl { get; set; }
     public List<BidSummaryResponse> Bids { get; set; } = [];
 }

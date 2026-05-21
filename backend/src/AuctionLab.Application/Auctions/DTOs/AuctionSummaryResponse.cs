@@ -10,4 +10,5 @@ public sealed class AuctionSummaryResponse
     public DateTimeOffset EndTime { get; set; }
     public string OwnerUsername { get; set; } = string.Empty;
     public int BidCount { get; set; }
+    public string? ImageUrl { get; set; }
 }

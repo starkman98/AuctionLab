@@ -13,4 +13,5 @@ public sealed class AdminAuctionResponse
     public bool IsActive { get; set; }
     public DateTimeOffset? InactivatedAt { get; set; }
     public int OwnerId { get; set; }
+    public string? ImageUrl { get; set; }
 }

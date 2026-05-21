@@ -18,4 +18,8 @@ public sealed class CreateAuctionRequest
     [Range(0, double.MaxValue, ErrorMessage = "Reservation price must be positive")]
     public decimal? ReservationPrice { get; set; }
     public DateTimeOffset EndTime { get; set; }
+
+    [Url]
+    [MaxLength(2048)]
+    public string? ImageUrl { get; set; }
 }

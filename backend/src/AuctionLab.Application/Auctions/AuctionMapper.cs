@@ -18,6 +18,7 @@ public static class AuctionMapper
         StartTime = auction.StartTime,
         EndTime = auction.EndTime,
         IsOpen = auction.IsOpen,
+        ImageUrl = auction.ImageUrl,
         Bids = auction.IsOpen || auction.Bids.Count == 0
             ? auction.Bids.Select(b => new BidSummaryResponse
                 {
@@ -48,6 +49,7 @@ public static class AuctionMapper
         StartTime = auction.StartTime,
         EndTime = auction.EndTime,
         OwnerUsername = auction.User.UserName,
-        BidCount = auction.Bids.Count
+        BidCount = auction.Bids.Count,
+        ImageUrl = auction.ImageUrl
     };
 }

@@ -11,6 +11,7 @@ export interface AuctionSummaryResponse {
   endTime: string;
   ownerUsername: string;
   bidCount: number;
+  imageUrl: string | null;
 }
 
 export interface AuctionDetailResponse {
@@ -24,6 +25,7 @@ export interface AuctionDetailResponse {
   startTime: string;
   endTime: string;
   isOpen: boolean;
+  imageUrl: string | null;
   bids: BidSummaryResponse[];
 }
 
@@ -33,9 +35,11 @@ export interface CreateAuctionRequest {
   startingPrice: number;
   reservationPrice?: number;
   endTime: string;
+  imageUrl?: string;
 }
 
 export interface UpdateAuctionRequest {
   title: string;
   description: string;
+  imageUrl?: string;
 }

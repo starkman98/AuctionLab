@@ -236,8 +236,8 @@ PUT /api/admin/users/{id}/deactivate
 
 - [x] Skapa React + TypeScript + Vite-projekt
 - [x] Installera React Router
-- [ ] Skapa grundlayout med header/nav/footer
-- [ ] Skapa sidor:
+- [x] Skapa grundlayout med header/nav/footer
+- [x] Skapa sidor:
   - Home
   - Login
   - Register
@@ -249,14 +249,14 @@ PUT /api/admin/users/{id}/deactivate
 
 ### Steg 2 – Auth i frontend
 
-- [ ] Skapa `AuthContext`
-- [ ] Spara token efter login
-- [ ] Spara användarinfo, exempelvis id, email, role
-- [ ] Skapa loginformulär
-- [ ] Skapa registerformulär
-- [ ] Skapa logout
-- [ ] Skapa protected routes
-- [ ] Visa olika menyval beroende på om användaren är inloggad
+- [x] Skapa `AuthContext`
+- [x] Spara token efter login
+- [x] Spara användarinfo, exempelvis id, email, role
+- [x] Skapa loginformulär
+- [x] Skapa registerformulär
+- [x] Skapa logout
+- [x] Skapa protected routes
+- [x] Visa olika menyval beroende på om användaren är inloggad
 
 Exempel på route-tänk:
 
@@ -271,9 +271,9 @@ Exempel på route-tänk:
 
 ### Steg 3 – Auktioner i frontend
 
-- [ ] Lista öppna auktioner
+- [x] Lista öppna auktioner
 - [ ] Sök auktioner via titel
-- [ ] Visa auktionens titel, beskrivning, pris, slutdatum och skapare
+- [x] Visa auktionens titel, beskrivning, pris, slutdatum och skapare
 - [ ] Klicka in på en auktion
 - [ ] Visa detaljer
 - [ ] Skapa auktion som inloggad användare

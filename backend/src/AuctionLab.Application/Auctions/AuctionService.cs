@@ -27,7 +27,8 @@ public class AuctionService : IAuctionService
             StartingPrice = request.StartingPrice,
             ReservationPrice = request.ReservationPrice,
             EndTime = request.EndTime,
-            UserId = userId
+            UserId = userId,
+            ImageUrl = request.ImageUrl
         };
 
         await _repo.AddAsync(newAuction, cancellationToken);

@@ -4,16 +4,16 @@ import { Outlet } from "react-router";
 
 const MainLayout = () => {
   return (
-    <div>
-      <div>
+    <div className="flex flex-col min-h-screen">
+      <header className="sticky top-0 z-50">
         <Header />
-      </div>
-      <div>
+      </header>
+      <main className="flex-1">
         <Outlet />
-      </div>
-      <div>
+      </main>
+      <footer>
         <Footer />
-      </div>
+      </footer>
     </div>
   );
 };

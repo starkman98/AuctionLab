@@ -9,4 +9,5 @@ public interface IBidRepository
     Task<List<Bid>> GetByAuctionIdAsync(int auctionId, CancellationToken cancellationToken = default);
     Task<Bid?> GetLatestByAuctionIdAsync(int auctionId, CancellationToken cancellationToken = default);
     Task<Bid?> GetByIdAsync(int bidId, CancellationToken cancellationToken = default);
+    Task<List<Bid>> GetByUserIdAsync(int userId, CancellationToken cancellationToken = default);
 }

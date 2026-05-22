@@ -14,7 +14,7 @@ export const getAuctions = (
   pageSize?: number,
 ) =>
   apiFetch<AuctionSummaryResponse[]>(
-    `/auctions?search=${search ?? ""}&status=${status ?? "open"}&page=${page ?? 1}&pageSize=${pageSize ?? 20}`,
+    `/auctions?search=${search ?? ""}&status=${status ?? "all"}&page=${page ?? 1}&pageSize=${pageSize ?? 20}`,
   );
 
 export const getAuction = (auctionId: number) =>
@@ -34,3 +34,6 @@ export const updateAuction = (
     method: "PUT",
     body: JSON.stringify(requestBody),
   });
+
+export const getMyAuctions = () =>
+  apiFetch<AuctionSummaryResponse[]>(`/auctions/me`);

@@ -106,4 +106,20 @@ public class BidService : IBidService
 
         await _repo.DeleteAsync(bid, cancellationToken);
     }
+
+    public async Task<List<MyBidResponse>> GetByUserIdAsync(int userId, CancellationToken cancellationToken = default)
+    {
+        var bids = await _repo.GetByUserIdAsync(userId, cancellationToken);
+
+        return bids.Select(b => new MyBidResponse
+        {
+            AuctionId = b.AuctionId,
+            AuctionTitle = b.Auction.Title,
+            EndTime = b.Auction.EndTime,
+            IsOpen = b.Auction.IsOpen,
+            MyBidAmount = b.Amount,
+            CurrentHighestBid = b.Auction.Bids.Max(b => b.Amount),
+            IsWinning = b.Amount == b.Auction.Bids.Max(b => b.Amount)
+        }).ToList();
+    }
 }

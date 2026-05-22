@@ -1,4 +1,8 @@
-import type { BidSummaryResponse, PlaceBidRequest } from "@/types/bid";
+import type {
+  BidSummaryResponse,
+  MyBidResponse,
+  PlaceBidRequest,
+} from "@/types/bid";
 import { apiFetch } from "./apiFetch";
 
 export const getBids = (auctionId: number) =>
@@ -14,3 +18,5 @@ export const retractBid = (bidId: number) =>
   apiFetch<void>(`/bids/${bidId}`, {
     method: "DELETE",
   });
+
+export const getMyBids = () => apiFetch<MyBidResponse[]>(`bids/me`);

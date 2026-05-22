@@ -1,8 +1,7 @@
 import { useAuth } from "@/hooks/useAuth";
-import type { ReactNode } from "react";
-import { Navigate } from "react-router";
+import { Navigate, Outlet } from "react-router";
 
-const AdminRoute = ({ children }: { children: ReactNode }) => {
+const AdminRoute = () => {
   const { user, isLoading, isAuthenticated } = useAuth();
 
   if (isLoading)
@@ -14,7 +13,7 @@ const AdminRoute = ({ children }: { children: ReactNode }) => {
   if (!isAuthenticated) return <Navigate to="/login" replace />;
   if (user?.role !== "Admin") return <Navigate to="/" replace />;
 
-  return children;
+  return <Outlet />;
 };
 
 export default AdminRoute;

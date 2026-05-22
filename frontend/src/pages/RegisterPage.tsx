@@ -1,16 +1,19 @@
-import { loginApi } from "@/api/authApi";
-import { ApiError } from "@/types/apiError";
+import { registerApi } from "@/api/authApi";
 import { getMe } from "@/api/userApi";
 import { useAuth } from "@/hooks/useAuth";
-import type { LoginRequest } from "@/types/auth";
+import { ApiError } from "@/types/apiError";
+import type { RegisterRequest } from "@/types/auth";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 
-const LoginPage = () => {
+const RegisterPage = () => {
   const { setUser } = useAuth();
   const navigate = useNavigate();
 
-  const [form, setForm] = useState<LoginRequest>({
+  const [form, setForm] = useState<RegisterRequest>({
+    firstName: "",
+    lastName: "",
+    email: "",
     userName: "",
     password: "",
   });
@@ -27,7 +30,7 @@ const LoginPage = () => {
     setIsSubmitting(true);
 
     try {
-      await loginApi(form);
+      await registerApi(form);
       const user = await getMe();
       setUser(user);
       navigate("/");
@@ -35,7 +38,9 @@ const LoginPage = () => {
       if (error instanceof ApiError && error.fieldErrors) {
         setFieldErrors(error.fieldErrors);
       } else {
-        setError(error instanceof Error ? error.message : "Login failed");
+        setError(
+          error instanceof Error ? error.message : "Registration failed",
+        );
       }
     } finally {
       setIsSubmitting(false);
@@ -49,6 +54,30 @@ const LoginPage = () => {
         void handleSubmit();
       }}
     >
+      <input
+        name="firstName"
+        value={form.firstName}
+        onChange={handleChange}
+        placeholder="Firstname"
+        type="text"
+        autoComplete="given-name"
+      />
+      <input
+        name="lastName"
+        value={form.lastName}
+        onChange={handleChange}
+        placeholder="Lastname"
+        type="text"
+        autoComplete="family-name"
+      />
+      <input
+        name="email"
+        value={form.email}
+        onChange={handleChange}
+        placeholder="Email"
+        type="text"
+        autoComplete="email"
+      />
       <input
         name="userName"
         value={form.userName}
@@ -66,17 +95,17 @@ const LoginPage = () => {
         onChange={handleChange}
         placeholder="Password"
         type="password"
-        autoComplete="current-password"
+        autoComplete="new-password"
       />
       {fieldErrors.Password?.map((msg) => (
         <p key={msg}>{msg}</p>
       ))}
       {error && <p>{error}</p>}
       <button type="submit" disabled={isSubmitting}>
-        {isSubmitting ? "Logging in..." : "Log in"}
+        {isSubmitting ? "Registering" : "Register"}
       </button>
     </form>
   );
 };
 
-export default LoginPage;
+export default RegisterPage;

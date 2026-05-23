@@ -11,4 +11,5 @@ public sealed class AuctionSummaryResponse
     public string OwnerUsername { get; set; } = string.Empty;
     public int BidCount { get; set; }
     public string? ImageUrl { get; set; }
+    public bool IsOpen { get; set; }
 }

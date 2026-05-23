@@ -50,6 +50,7 @@ public static class AuctionMapper
         EndTime = auction.EndTime,
         OwnerUsername = auction.User.UserName,
         BidCount = auction.Bids.Count,
-        ImageUrl = auction.ImageUrl
+        ImageUrl = auction.ImageUrl,
+        IsOpen = auction.IsOpen
     };
 }

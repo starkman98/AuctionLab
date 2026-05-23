@@ -17,7 +17,7 @@ export const getAuctions = (
     `/auctions?search=${search ?? ""}&status=${status ?? "all"}&page=${page ?? 1}&pageSize=${pageSize ?? 20}`,
   );
 
-export const getAuction = (auctionId: number) =>
+export const getAuction = (auctionId: string) =>
   apiFetch<AuctionDetailResponse>(`/auctions/${auctionId}`);
 
 export const createAuction = (requestBody: CreateAuctionRequest) =>

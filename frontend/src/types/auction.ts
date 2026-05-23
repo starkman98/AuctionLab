@@ -12,6 +12,7 @@ export interface AuctionSummaryResponse {
   ownerUsername: string;
   bidCount: number;
   imageUrl: string | null;
+  isOpen: boolean;
 }
 
 export interface AuctionDetailResponse {

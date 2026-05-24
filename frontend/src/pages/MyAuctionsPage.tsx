@@ -15,7 +15,7 @@ const MyAuctionsPage = () => {
     fetchMyAuctions();
   }, []);
   return (
-    <section>
+    <section className="text-lg">
       <h1>{user?.userName}:s Auctions</h1>
       <AuctionListCard auctions={myAuctions} />
     </section>

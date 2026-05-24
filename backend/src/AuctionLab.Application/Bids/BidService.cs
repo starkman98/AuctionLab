@@ -119,7 +119,8 @@ public class BidService : IBidService
             IsOpen = b.Auction.IsOpen,
             MyBidAmount = b.Amount,
             CurrentHighestBid = b.Auction.Bids.Max(b => b.Amount),
-            IsWinning = b.Amount == b.Auction.Bids.Max(b => b.Amount)
+            IsWinning = b.Amount == b.Auction.Bids.Max(b => b.Amount),
+            ImageUrl = b.Auction.ImageUrl
         }).ToList();
     }
 }

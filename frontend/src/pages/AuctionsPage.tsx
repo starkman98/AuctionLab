@@ -13,7 +13,7 @@ const AuctionsPage = () => {
     fetchAuctions();
   }, []);
   return (
-    <section>
+    <section className="text-lg">
       <h1>Auctions</h1>
       <AuctionListCard auctions={auctions} />
     </section>

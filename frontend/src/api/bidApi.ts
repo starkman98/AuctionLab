@@ -19,4 +19,4 @@ export const retractBid = (bidId: number) =>
     method: "DELETE",
   });
 
-export const getMyBids = () => apiFetch<MyBidResponse[]>(`bids/me`);
+export const getMyBids = () => apiFetch<MyBidResponse[]>(`/bids/me`);

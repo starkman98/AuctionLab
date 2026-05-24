@@ -274,27 +274,27 @@ Exempel på route-tänk:
 - [x] Lista öppna auktioner
 - [ ] Sök auktioner via titel
 - [x] Visa auktionens titel, beskrivning, pris, slutdatum och skapare
-- [ ] Klicka in på en auktion
-- [ ] Visa detaljer
-- [ ] Skapa auktion som inloggad användare
+- [x] Klicka in på en auktion
+- [x] Visa detaljer
+- [x] Skapa auktion som inloggad användare
 - [ ] Uppdatera egen auktion
 
 ### Steg 4 – Bud i frontend
 
-- [ ] Visa budhistorik för öppen auktion
-- [ ] Visa budformulär om användaren är inloggad
-- [ ] Dölj budformulär om användaren äger auktionen
-- [ ] Dölj budformulär om auktionen är avslutad
-- [ ] Visa felmeddelande om budet är för lågt
-- [ ] Uppdatera budlistan efter lyckat bud
-- [ ] Lägg till knapp för att ångra senaste egna bud när reglerna tillåter det
+- [x] Visa budhistorik för öppen auktion
+- [x] Visa budformulär om användaren är inloggad
+- [x] Dölj budformulär om användaren äger auktionen
+- [x] Dölj budformulär om auktionen är avslutad
+- [x] Visa felmeddelande om budet är för lågt
+- [x] Uppdatera budlistan efter lyckat bud
+- [x] Lägg till knapp för att ångra senaste egna bud när reglerna tillåter det
 
 ### Steg 5 – VG: avslutade auktioner i frontend
 
 - [ ] Lägg till filter: öppna / avslutade auktioner
-- [ ] För avslutade auktioner: visa bara vinnande bud
-- [ ] Visa inte budhistorik
-- [ ] Visa inte budformulär
+- [x] För avslutade auktioner: visa bara vinnande bud
+- [x] Visa inte budhistorik
+- [x] Visa inte budformulär
 
 ### Steg 6 – VG: adminvy
 

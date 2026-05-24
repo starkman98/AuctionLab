@@ -17,4 +17,5 @@ export interface MyBidResponse {
   myBidAmount: number;
   currentHighestBid: number;
   isWinning: boolean;
+  imageUrl: string | null;
 }

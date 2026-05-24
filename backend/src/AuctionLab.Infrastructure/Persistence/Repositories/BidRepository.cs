@@ -54,9 +54,9 @@ public class BidRepository : IBidRepository
 
     public async Task<List<Bid>> GetByUserIdAsync(int userId, CancellationToken cancellationToken = default)
         => await _context.Bids
-        .AsNoTracking()
         .Where(b => b.UserId == userId)
         .Include(b => b.Auction)
+        .ThenInclude(a => a.Bids)
         .OrderByDescending(b => b.CreatedAt)
         .ToListAsync();
 }

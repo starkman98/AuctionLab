@@ -86,6 +86,7 @@ public class AuctionService : IAuctionService
 
         auction.Title = request.Title;
         auction.Description = request.Description;
+        auction.ImageUrl = request.ImageUrl;
 
         await _repo.UpdateAsync(auction, cancellationToken);
 

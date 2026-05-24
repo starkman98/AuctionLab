@@ -9,4 +9,5 @@ public sealed class MyBidResponse
     public decimal MyBidAmount { get; set; }
     public decimal? CurrentHighestBid { get; set; }
     public bool IsWinning { get; set; }
+    public string? ImageUrl { get; set; }
 }

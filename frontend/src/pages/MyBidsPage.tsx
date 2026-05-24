@@ -16,7 +16,7 @@ const MyBidsPage = () => {
   }, []);
 
   return (
-    <section>
+    <section className="text-lg">
       <h1>{user?.userName}:s Bids</h1>
       <MyBidListCard myBids={myBids} />
     </section>

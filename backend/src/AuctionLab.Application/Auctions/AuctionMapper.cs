@@ -26,7 +26,7 @@ public static class AuctionMapper
                     Amount = b.Amount,
                     CreatedAt = b.CreatedAt,
                     BidderUsername = b.User.UserName
-                }).ToList()
+                }).OrderByDescending(b => b.Amount).ToList()
             : auction.Bids
                 .Where(b => b.Amount == auction.Bids.Max(x => x.Amount))
                 .Select(b => new BidSummaryResponse

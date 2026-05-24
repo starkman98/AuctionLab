@@ -54,7 +54,7 @@ const CreateAuctionPage = () => {
         Create new auction
       </h1>
       <form
-        className="mx-auto max-w-2xl border border-neutral-800 p-8"
+        className="mx-auto max-w-2xl text-lg border border-neutral-800 p-8"
         onSubmit={(e) => {
           e.preventDefault();
           void handleSubmit();
@@ -151,7 +151,7 @@ const CreateAuctionPage = () => {
         </div>
         {error && <p>{error}</p>}
         <button
-          className="px-12 py-2 bg-green-900 text-neutral-50 mt-4"
+          className="px-12 py-2 w-full bg-green-900 text-neutral-50 mt-4"
           type="submit"
           disabled={isSubmitting}
         >

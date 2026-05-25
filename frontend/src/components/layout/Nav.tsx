@@ -5,7 +5,7 @@ const Nav = () => {
   const { user, isAuthenticated, logout } = useAuth();
 
   return (
-    <nav>
+    <nav className="text-xl flex items-center gap-x-4">
       <NavLink
         to="/"
         className={({ isActive }) => (isActive ? "font-bold underline" : "")}

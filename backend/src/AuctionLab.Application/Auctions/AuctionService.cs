@@ -47,9 +47,9 @@ public class AuctionService : IAuctionService
         return AuctionMapper.ToDetailResponse(auction);
     }
 
-    public async Task<List<AuctionSummaryResponse>> GetByUserIdAsync(int userId, CancellationToken cancellationToken = default)
+    public async Task<List<AuctionSummaryResponse>> GetByUserIdAsync(int userId, string? search = null, CancellationToken cancellationToken = default)
     {
-        var auctions = await _repo.GetByUserIdAsync(userId, cancellationToken);
+        var auctions = await _repo.GetByUserIdAsync(userId, search, cancellationToken);
 
         var auctionsResponse = new List<AuctionSummaryResponse>();
 

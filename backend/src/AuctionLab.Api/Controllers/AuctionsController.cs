@@ -63,12 +63,12 @@ public class AuctionsController : AppControllerBase
 
     [Authorize]
     [HttpGet("me")]
-    public async Task<ActionResult<List<AuctionSummaryResponse>>> GetMyAuctions(CancellationToken cancellationToken = default)
+    public async Task<ActionResult<List<AuctionSummaryResponse>>> GetMyAuctions([FromQuery] string? search = null, CancellationToken cancellationToken = default)
     {
         if (!TryGetUserId(out var userId))
             return Unauthorized();
 
-        var response = await _service.GetByUserIdAsync(userId, cancellationToken);
+        var response = await _service.GetByUserIdAsync(userId, search, cancellationToken);
 
         return Ok(response);
     }

@@ -51,15 +51,20 @@ public class AuctionRepository : IAuctionRepository
         .ThenInclude(b => b.User)
         .FirstOrDefaultAsync(a => a.AuctionId == auctionId, cancellationToken);
 
-    public async Task<List<Auction>> GetByUserIdAsync(int userId, CancellationToken cancellationToken = default)
-        => await _context.Auctions
-        .AsNoTracking()
-        .Where(a => a.UserId == userId)
+    public async Task<List<Auction>> GetByUserIdAsync(int userId, string? search = null, CancellationToken cancellationToken = default)
+    { 
+        var query = _context.Auctions.AsNoTracking().Where(a => a.UserId == userId).AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(search))
+            query = query.Where(a => a.Title.Contains(search) || a.Description.Contains(search));
+
+        return await query
         .Include(a => a.User)
         .Include(a => a.Bids)
         .ThenInclude(b => b.User)
         .OrderBy(a => a.EndTime)
         .ToListAsync(cancellationToken);
+    }
 
     public async Task<List<Auction>> SearchAsync(string? search, AuctionStatus status, int page, int pageSize, CancellationToken cancellationToken = default)
     {

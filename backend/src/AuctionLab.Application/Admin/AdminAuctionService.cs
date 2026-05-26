@@ -28,12 +28,12 @@ public class AdminAuctionService : IAdminAuctionService
         return AdminMapper.ToAuctionResponse(auction);
     }
 
-    public async Task<List<AdminAuctionResponse>> GetAllAsync(int page, int pageSize, CancellationToken cancellationToken = default)
+    public async Task<List<AdminAuctionResponse>> GetAllAsync(int page, int pageSize, string? search = null, CancellationToken cancellationToken = default)
     {
         page = Math.Max(1, page);
         pageSize = Math.Clamp(pageSize, 1, 100);
 
-        var auctions = await _repo.GetAllAsync(page, pageSize, cancellationToken);
+        var auctions = await _repo.GetAllAsync(page, pageSize, search, cancellationToken);
 
         return auctions.Select(auction => AdminMapper.ToAuctionResponse(auction)).ToList();
     }

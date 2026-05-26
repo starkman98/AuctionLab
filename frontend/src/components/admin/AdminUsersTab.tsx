@@ -101,7 +101,7 @@ const AdminUsersTab = () => {
         <input
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          placeholder="Search users..."
+          placeholder="Search auctions..."
           className="border px-3"
         />
         <div className="text-red-600 flex items-end">

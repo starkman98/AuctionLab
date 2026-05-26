@@ -20,16 +20,21 @@ public class AuctionRepository : IAuctionRepository
         await _context.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<List<Auction>> GetAllAsync(int page, int pageSize, CancellationToken cancellationToken = default)
-        => await _context.Auctions
-        .IgnoreQueryFilters()
-        .AsNoTracking()
+    public async Task<List<Auction>> GetAllAsync(int page, int pageSize, string? search = null, CancellationToken cancellationToken = default)
+    {   
+        var query = _context.Auctions.IgnoreQueryFilters().AsNoTracking().AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(search))
+            query = query.Where(a => a.Title.Contains(search) || a.Description.Contains(search));
+
+        return await query
         .Include(a => a.User)
         .Include(a => a.Bids)
         .OrderBy(a => a.EndTime)
         .Skip((page - 1) * pageSize)
         .Take(pageSize)
         .ToListAsync(cancellationToken);
+    }
 
     public async Task<Auction?> GetByIdAsync(int auctionId, CancellationToken cancellationToken = default)
         => await _context.Auctions

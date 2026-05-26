@@ -6,6 +6,7 @@ import {
   inactivateAuction,
   reactivateAuction,
 } from "@/api/adminAuctionApi";
+import { useDebounce } from "@/hooks/useDebounce";
 
 const AdminAuctionsTab = () => {
   const [auctions, setAuctions] = useState<AdminAuctionResponse[]>([]);
@@ -16,13 +17,16 @@ const AdminAuctionsTab = () => {
     null,
   );
 
+  const [search, setSearch] = useState("");
+  const debounceSearch = useDebounce(search, 300);
+
   useEffect(() => {
     const fetchAuctions = async () => {
       setIsLoading(true);
       setAuctionsError("");
       setStatusError("");
       try {
-        const response = await getAuctions();
+        const response = await getAuctions(1, 20, debounceSearch);
 
         setAuctions(response);
       } catch (error) {
@@ -35,7 +39,7 @@ const AdminAuctionsTab = () => {
     };
 
     fetchAuctions();
-  }, []);
+  }, [debounceSearch]);
 
   const handleStatus = async (auction: AdminAuctionResponse) => {
     setIsLoadingStatusId(auction.auctionId);
@@ -64,6 +68,12 @@ const AdminAuctionsTab = () => {
     <section className="mx-auto max-w-4xl px-5">
       <div className="flex justify-between">
         <h2 className="text-2xl py-4">Auctions</h2>
+        <input
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Search users..."
+          className="border px-3"
+        />
         <div className="text-red-600 flex items-end">
           {statusError && <p>{statusError}</p>}
           {auctionsError && <p>{auctionsError}</p>}

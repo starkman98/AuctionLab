@@ -18,9 +18,10 @@ namespace AuctionLab.Api.Controllers
         public async Task<ActionResult<List<AdminAuctionResponse>>> GetAuctions(
             [FromQuery] int page = 1,
             [FromQuery] int pageSize = 20,
+            [FromQuery] string? search = null,
             CancellationToken cancellationToken = default)
         {
-            var response = await _service.GetAllAsync(page, pageSize, cancellationToken);
+            var response = await _service.GetAllAsync(page, pageSize, search, cancellationToken);
 
             return Ok(response);
         }

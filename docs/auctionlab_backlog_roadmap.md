@@ -277,7 +277,7 @@ Exempel på route-tänk:
 - [x] Klicka in på en auktion
 - [x] Visa detaljer
 - [x] Skapa auktion som inloggad användare
-- [ ] Uppdatera egen auktion
+- [x] Uppdatera egen auktion
 
 ### Steg 4 – Bud i frontend
 
@@ -298,12 +298,12 @@ Exempel på route-tänk:
 
 ### Steg 6 – VG: adminvy
 
-- [ ] Skapa admin-dashboard
-- [ ] Lista användare
-- [ ] Lista auktioner
-- [ ] Lägg till knapp för att inaktivera användare
-- [ ] Lägg till knapp för att inaktivera auktion
-- [ ] Visa tydliga bekräftelser och felmeddelanden
+- [x] Skapa admin-dashboard
+- [x] Lista användare
+- [x] Lista auktioner
+- [x] Lägg till knapp för att inaktivera användare
+- [x] Lägg till knapp för att inaktivera auktion
+- [x] Visa tydliga bekräftelser och felmeddelanden
 
 ### Steg 7 – Responsiv design
 

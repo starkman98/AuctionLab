@@ -57,12 +57,12 @@ public class AdminUserService : IAdminUserService
         return AdminMapper.ToUserResponse(user);
     }
 
-    public async Task<List<AdminUserResponse>> GetAllAsync(int page, int pageSize, CancellationToken cancellationToken = default)
+    public async Task<List<AdminUserResponse>> GetAllAsync(int page, int pageSize, string? search = null, CancellationToken cancellationToken = default)
     {
         page = Math.Max(1, page);
         pageSize = Math.Clamp(pageSize, 1, 100);
 
-        var users = await _repo.GetAllAsync(page, pageSize, cancellationToken);
+        var users = await _repo.GetAllAsync(page, pageSize, search, cancellationToken);
 
         return users.Select(user => AdminMapper.ToUserResponse(user)).ToList();
     }

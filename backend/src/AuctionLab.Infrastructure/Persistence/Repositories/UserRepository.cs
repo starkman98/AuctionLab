@@ -39,14 +39,18 @@ public class UserRepository : IUserRepository
     public async Task UpdateAsync(User user, CancellationToken cancellationToken = default)
         => await _context.SaveChangesAsync(cancellationToken);
 
-    public async Task<List<User>> GetAllAsync(int page, int pageSize, CancellationToken cancellationToken = default)
-        => await _context.Users
-        .IgnoreQueryFilters()
-        .AsNoTracking()
+    public async Task<List<User>> GetAllAsync(int page, int pageSize, string? search = null, CancellationToken cancellationToken = default)
+    {
+        var query = _context.Users.IgnoreQueryFilters().AsNoTracking().AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(search))
+            query = query.Where(u => u.UserName.Contains(search) || u.Email.Contains(search));
+        return await query
         .OrderBy(u => u.UserName)
         .Skip((page - 1) * pageSize)
         .Take(pageSize)
         .ToListAsync(cancellationToken);
+    }
 
     public async Task<User?> GetByIdIncludingInactiveAsync(int userId, CancellationToken cancellationToken = default)
         => await _context.Users

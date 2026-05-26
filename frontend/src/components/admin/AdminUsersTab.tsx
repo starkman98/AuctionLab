@@ -7,6 +7,7 @@ import {
 import type { AdminUserResponse } from "@/types/admin";
 import { useEffect, useState } from "react";
 import Spinner from "../spinner/Spinner";
+import { useDebounce } from "@/hooks/useDebounce";
 
 const AdminUsersTab = () => {
   const [users, setUsers] = useState<AdminUserResponse[]>([]);
@@ -21,6 +22,9 @@ const AdminUsersTab = () => {
   const [statusError, setStatusError] = useState("");
   const [changeRoleError, setChangeRoleError] = useState("");
 
+  const [search, setSearch] = useState("");
+  const debounceSearch = useDebounce(search, 300);
+
   useEffect(() => {
     const fetchUsers = async () => {
       setUsersError("");
@@ -29,7 +33,7 @@ const AdminUsersTab = () => {
       setIsLoading(true);
 
       try {
-        const response = await getUsers();
+        const response = await getUsers(1, 20, debounceSearch);
         setUsers(response);
       } catch (error) {
         setUsersError(
@@ -41,7 +45,7 @@ const AdminUsersTab = () => {
     };
 
     fetchUsers();
-  }, []);
+  }, [debounceSearch]);
 
   const handleStatus = async (user: AdminUserResponse) => {
     setIsLoadingStatusId(user.userId);
@@ -94,6 +98,12 @@ const AdminUsersTab = () => {
     <section className="mx-auto max-w-4xl px-5">
       <div className="flex justify-between">
         <h2 className="text-2xl py-4">Users</h2>
+        <input
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Search users..."
+          className="border px-3"
+        />
         <div className="text-red-600 flex items-end">
           {statusError && <p>{statusError}</p>}
           {changeRoleError && <p>{changeRoleError}</p>}

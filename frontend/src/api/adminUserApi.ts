@@ -1,9 +1,9 @@
 import type { AdminUserResponse, ChangeRoleRequest } from "@/types/admin";
 import { apiFetch } from "./apiFetch";
 
-export const getUsers = (page?: number, pageSize?: number) =>
+export const getUsers = (page?: number, pageSize?: number, search?: string) =>
   apiFetch<AdminUserResponse[]>(
-    `/admin/users?page=${page ?? 1}&pageSize=${pageSize ?? 20}`,
+    `/admin/users?page=${page ?? 1}&pageSize=${pageSize ?? 20}&search=${search ?? ""}`,
   );
 
 export const changeRole = (userId: number, requestBody: ChangeRoleRequest) =>

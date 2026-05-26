@@ -17,10 +17,11 @@ namespace AuctionLab.Api.Controllers
         [HttpGet]
         public async Task<ActionResult<List<AdminUserResponse>>> GetUsers(
             [FromQuery] int page = 1, 
-            [FromQuery] int pageSize = 20, 
+            [FromQuery] int pageSize = 20,
+            [FromQuery] string? search = null, 
             CancellationToken cancellationToken = default)
         {
-            var response = await _service.GetAllAsync(page, pageSize, cancellationToken);
+            var response = await _service.GetAllAsync(page, pageSize, search, cancellationToken);
 
             return Ok(response);
         }

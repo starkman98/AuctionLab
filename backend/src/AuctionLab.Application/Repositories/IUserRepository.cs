@@ -11,6 +11,6 @@ public interface IUserRepository
     Task<bool> UsernameExistsAsync(string username, CancellationToken cancellationToken = default);
     Task AddAsync(User user, CancellationToken cancellationToken = default);
     Task UpdateAsync(User user, CancellationToken cancellationToken = default);
-    Task<List<User>> GetAllAsync(int page, int pageSize, CancellationToken cancellationToken = default);
+    Task<List<User>> GetAllAsync(int page, int pageSize, string? search = null, CancellationToken cancellationToken = default);
     Task<User?> GetByIdIncludingInactiveAsync(int userId, CancellationToken cancellationToken = default);
 }

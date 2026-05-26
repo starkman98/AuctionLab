@@ -4,18 +4,21 @@ import { NavLink } from "react-router";
 const Nav = () => {
   const { user, isAuthenticated, logout } = useAuth();
 
+  const navStyle = "flex items-center hover:bg-gray-100 px-4";
+  const activeNavStyle = navStyle + " font-bold underline bg-gray-100";
+
   return (
-    <nav className="text-xl flex items-center gap-x-4">
+    <nav className="text-xl flex items-stretch h-full text-center">
       <NavLink
         to="/"
-        className={({ isActive }) => (isActive ? "font-bold underline" : "")}
+        className={({ isActive }) => (isActive ? activeNavStyle : navStyle)}
       >
         Auctions
       </NavLink>
       {!isAuthenticated && (
         <NavLink
           to="/login"
-          className={({ isActive }) => (isActive ? "font-bold underline" : "")}
+          className={({ isActive }) => (isActive ? activeNavStyle : navStyle)}
         >
           Login
         </NavLink>
@@ -23,7 +26,7 @@ const Nav = () => {
       {!isAuthenticated && (
         <NavLink
           to="/register"
-          className={({ isActive }) => (isActive ? "font-bold underline" : "")}
+          className={({ isActive }) => (isActive ? activeNavStyle : navStyle)}
         >
           Register
         </NavLink>
@@ -31,7 +34,7 @@ const Nav = () => {
       {isAuthenticated && (
         <NavLink
           to="/my-auctions"
-          className={({ isActive }) => (isActive ? "font-bold underline" : "")}
+          className={({ isActive }) => (isActive ? activeNavStyle : navStyle)}
         >
           My Auctions
         </NavLink>
@@ -39,7 +42,7 @@ const Nav = () => {
       {isAuthenticated && (
         <NavLink
           to="/my-bids"
-          className={({ isActive }) => (isActive ? "font-bold underline" : "")}
+          className={({ isActive }) => (isActive ? activeNavStyle : navStyle)}
         >
           My Bids
         </NavLink>
@@ -47,28 +50,32 @@ const Nav = () => {
       {isAuthenticated && (
         <NavLink
           to="/new-auction"
-          className={({ isActive }) => (isActive ? "font-bold underline" : "")}
+          className={({ isActive }) => (isActive ? activeNavStyle : navStyle)}
         >
           New Auction
-        </NavLink>
-      )}
-      {isAuthenticated && (
-        <NavLink
-          to="/profile"
-          className={({ isActive }) => (isActive ? "font-bold underline" : "")}
-        >
-          Profile
         </NavLink>
       )}
       {isAuthenticated && user?.role === "Admin" && (
         <NavLink
           to="/admin"
-          className={({ isActive }) => (isActive ? "font-bold underline" : "")}
+          className={({ isActive }) => (isActive ? activeNavStyle : navStyle)}
         >
           Admin
         </NavLink>
       )}
-      {isAuthenticated && <button onClick={logout}>Logout</button>}
+      {isAuthenticated && (
+        <NavLink
+          to="/profile"
+          className={({ isActive }) => (isActive ? activeNavStyle : navStyle)}
+        >
+          Profile
+        </NavLink>
+      )}
+      {isAuthenticated && (
+        <button onClick={logout} className={navStyle + " cursor-pointer"}>
+          Logout
+        </button>
+      )}
     </nav>
   );
 };

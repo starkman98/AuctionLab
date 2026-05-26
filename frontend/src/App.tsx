@@ -27,11 +27,11 @@ function App() {
           <Route path="/my-bids" element={<MyBidsPage />} />
           <Route path="/my-auctions" element={<MyAuctionsPage />} />
         </Route>
+        <Route element={<AdminRoute />}>
+          <Route path="/admin" element={<AdminPage />} />
+        </Route>
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
-      <Route element={<AdminRoute />}>
-        <Route path="/admin" element={<AdminPage />} />
-      </Route>
-      <Route path="*" element={<Navigate to="/auctions" replace />} />
     </Routes>
   );
 }

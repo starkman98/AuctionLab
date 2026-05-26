@@ -5,7 +5,7 @@ const Nav = () => {
   const { user, isAuthenticated, logout } = useAuth();
 
   const navStyle = "flex items-center hover:bg-gray-100 px-4";
-  const activeNavStyle = navStyle + " font-bold underline bg-gray-100";
+  const activeNavStyle = navStyle + " font-bold border-b-3 bg-gray-100";
 
   return (
     <nav className="text-xl flex items-stretch h-full text-center">
@@ -57,7 +57,7 @@ const Nav = () => {
       )}
       {isAuthenticated && user?.role === "Admin" && (
         <NavLink
-          to="/admin"
+          to="/admin?tab=users"
           className={({ isActive }) => (isActive ? activeNavStyle : navStyle)}
         >
           Admin

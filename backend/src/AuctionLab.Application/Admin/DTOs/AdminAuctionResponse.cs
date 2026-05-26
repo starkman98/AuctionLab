@@ -11,6 +11,7 @@ public sealed class AdminAuctionResponse
     public string OwnerUsername { get; set; } = string.Empty;
     public int BidCount { get; set; }
     public bool IsActive { get; set; }
+    public bool IsOpen { get; set; }
     public DateTimeOffset? InactivatedAt { get; set; }
     public int OwnerId { get; set; }
     public string? ImageUrl { get; set; }

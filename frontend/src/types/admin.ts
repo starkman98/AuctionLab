@@ -9,6 +9,7 @@ export interface AdminAuctionResponse {
   ownerId: number;
   bidCount: number;
   isActive: boolean;
+  isOpen: boolean;
   inactivatedAt: string | null;
   imageUrl: string | null;
 }

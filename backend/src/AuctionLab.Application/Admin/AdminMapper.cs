@@ -29,6 +29,7 @@ public static class AdminMapper
         OwnerUsername = auction.User.UserName,
         BidCount = auction.Bids.Count,
         IsActive = auction.IsActive,
+        IsOpen = auction.IsOpen,
         InactivatedAt = auction.InactivatedAt,
         OwnerId = auction.UserId,
         ImageUrl = auction.ImageUrl

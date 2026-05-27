@@ -48,12 +48,12 @@ public class BidsController : AppControllerBase
 
     [Authorize]
     [HttpGet("me")]
-    public async Task<ActionResult<List<MyBidResponse>>> GetMyBids(CancellationToken cancellationToken = default)
+    public async Task<ActionResult<List<MyBidResponse>>> GetMyBids([FromQuery] string? search = null, CancellationToken cancellationToken = default)
     {
         if (!TryGetUserId(out var userId))
             return Unauthorized();
 
-        var response = await _service.GetByUserIdAsync(userId, cancellationToken);
+        var response = await _service.GetByUserIdAsync(userId, search, cancellationToken);
 
         return Ok(response);
     }

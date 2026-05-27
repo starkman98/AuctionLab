@@ -107,9 +107,9 @@ public class BidService : IBidService
         await _repo.DeleteAsync(bid, cancellationToken);
     }
 
-    public async Task<List<MyBidResponse>> GetByUserIdAsync(int userId, CancellationToken cancellationToken = default)
+    public async Task<List<MyBidResponse>> GetByUserIdAsync(int userId, string? search = null, CancellationToken cancellationToken = default)
     {
-        var bids = await _repo.GetByUserIdAsync(userId, cancellationToken);
+        var bids = await _repo.GetByUserIdAsync(userId, search, cancellationToken);
 
         return bids.Select(b => new MyBidResponse
         {

@@ -52,11 +52,23 @@ public class BidRepository : IBidRepository
         .OrderByDescending(b => b.CreatedAt)
         .FirstOrDefaultAsync(b => b.AuctionId == auctionId, cancellationToken);
 
-    public async Task<List<Bid>> GetByUserIdAsync(int userId, CancellationToken cancellationToken = default)
-        => await _context.Bids
-        .Where(b => b.UserId == userId)
+    public async Task<List<Bid>> GetByUserIdAsync(int userId, string? search = null, CancellationToken cancellationToken = default)
+    {
+        var topBidIds = await _context.Bids
+            .Where(b => b.UserId == userId)
+            .GroupBy(b => b.AuctionId)
+            .Select(g => g.OrderByDescending(b => b.Amount).First().BidId)
+            .ToListAsync(cancellationToken);
+
+        var query = _context.Bids.Where(b => topBidIds.Contains(b.BidId));
+
+        if (!string.IsNullOrWhiteSpace(search))
+            query = query.Where(b => b.Auction.Title.Contains(search) || b.Auction.Description.Contains(search));
+
+        return await query
         .Include(b => b.Auction)
         .ThenInclude(a => a.Bids)
         .OrderByDescending(b => b.CreatedAt)
         .ToListAsync();
+    }
 }

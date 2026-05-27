@@ -16,7 +16,9 @@ const AuctionCard = ({ auction }: { auction: AuctionSummaryResponse }) => {
       <p>
         {auction.isOpen ? "Ends: " : "Ended: "} {formatDate(auction.endTime)}
       </p>
-      <Link to={`/auctions/${auction.auctionId}`}>View auction</Link>
+      <Link className="hover:underline" to={`/auctions/${auction.auctionId}`}>
+        View auction
+      </Link>
     </article>
   );
 };

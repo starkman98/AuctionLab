@@ -35,5 +35,7 @@ export const updateAuction = (
     body: JSON.stringify(requestBody),
   });
 
-export const getMyAuctions = (search?: string) =>
-  apiFetch<AuctionSummaryResponse[]>(`/auctions/me?search=${search ?? ""}`);
+export const getMyAuctions = (status?: string, search?: string) =>
+  apiFetch<AuctionSummaryResponse[]>(
+    `/auctions/me?status=${status ?? "all"}&search=${search ?? ""}`,
+  );

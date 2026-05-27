@@ -7,7 +7,9 @@ const MyBidCard = ({ myBid }: { myBid: MyBidResponse }) => {
   return (
     <article>
       <img src={getImageUrl(myBid.imageUrl)} alt={myBid.auctionTitle} />
-      <Link to={`/auctions/${myBid.auctionId}`}>{myBid.auctionTitle}</Link>
+      <Link className="hover:underline" to={`/auctions/${myBid.auctionId}`}>
+        {myBid.auctionTitle}
+      </Link>
       <p>Your bid: {myBid.myBidAmount}</p>
       <p>Highest bid: {myBid.currentHighestBid}</p>
       <p>

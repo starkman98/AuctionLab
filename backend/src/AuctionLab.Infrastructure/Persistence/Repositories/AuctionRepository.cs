@@ -20,9 +20,16 @@ public class AuctionRepository : IAuctionRepository
         await _context.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<List<Auction>> GetAllAsync(int page, int pageSize, string? search = null, CancellationToken cancellationToken = default)
+    public async Task<List<Auction>> GetAllAsync(int page, int pageSize, AuctionStatus status, string? search = null, CancellationToken cancellationToken = default)
     {   
         var query = _context.Auctions.IgnoreQueryFilters().AsNoTracking().AsQueryable();
+
+        query = status switch
+        {
+            AuctionStatus.Open => query.Where(a => a.EndTime > DateTimeOffset.UtcNow),
+            AuctionStatus.Closed => query.Where(a => a.EndTime <= DateTimeOffset.UtcNow),
+            _ => query
+        };
 
         if (!string.IsNullOrWhiteSpace(search))
             query = query.Where(a => a.Title.Contains(search) || a.Description.Contains(search));
@@ -51,9 +58,16 @@ public class AuctionRepository : IAuctionRepository
         .ThenInclude(b => b.User)
         .FirstOrDefaultAsync(a => a.AuctionId == auctionId, cancellationToken);
 
-    public async Task<List<Auction>> GetByUserIdAsync(int userId, string? search = null, CancellationToken cancellationToken = default)
+    public async Task<List<Auction>> GetByUserIdAsync(int userId, AuctionStatus status, string? search = null, CancellationToken cancellationToken = default)
     { 
         var query = _context.Auctions.AsNoTracking().Where(a => a.UserId == userId).AsQueryable();
+
+        query = status switch
+        {
+            AuctionStatus.Open => query.Where(a => a.EndTime > DateTimeOffset.UtcNow),
+            AuctionStatus.Closed => query.Where(a => a.EndTime <= DateTimeOffset.UtcNow),
+            _ => query
+        };
 
         if (!string.IsNullOrWhiteSpace(search))
             query = query.Where(a => a.Title.Contains(search) || a.Description.Contains(search));

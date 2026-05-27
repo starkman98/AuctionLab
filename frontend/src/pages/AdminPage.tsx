@@ -18,7 +18,9 @@ const AdminPage = () => {
       <div className="flex justify-center p-4 gap-4">
         <button
           className={
-            activeTab === "users" ? tabStyle + activeTabStyle : tabStyle
+            activeTab === "users"
+              ? tabStyle + activeTabStyle
+              : tabStyle + " hover:underline"
           }
           onClick={() => setSearchParams({ tab: "users" })}
         >
@@ -26,7 +28,9 @@ const AdminPage = () => {
         </button>
         <button
           className={
-            activeTab === "auctions" ? tabStyle + activeTabStyle : tabStyle
+            activeTab === "auctions"
+              ? tabStyle + activeTabStyle
+              : tabStyle + " hover:underline"
           }
           onClick={() => setSearchParams({ tab: "auctions" })}
         >

@@ -132,7 +132,7 @@ const AdminUsersTab = () => {
               </td>
               <td className="pl-6">
                 <button
-                  className="px-2 py-0.5 border mr-4 min-w-30"
+                  className="px-2 py-0.5 border mr-4 min-w-30 hover:underline cursor-pointer"
                   onClick={() => handleStatus(user)}
                 >
                   {isLoadingStatusId === user.userId ? (
@@ -144,7 +144,7 @@ const AdminUsersTab = () => {
                   )}
                 </button>
                 <button
-                  className="px-2 py-0.5 border min-w-30"
+                  className="px-2 py-0.5 border min-w-30 hover:underline cursor-pointer"
                   onClick={() => handleChangeRole(user)}
                 >
                   {isLoadingChangeRoleId === user.userId ? (

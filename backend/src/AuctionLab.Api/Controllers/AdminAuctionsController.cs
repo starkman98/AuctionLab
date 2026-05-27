@@ -1,6 +1,8 @@
 using AuctionLab.Application.Admin;
 using AuctionLab.Application.Admin.DTOs;
 using Microsoft.AspNetCore.Mvc;
+using AuctionLab.Domain.Enums;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace AuctionLab.Api.Controllers
 {
@@ -16,12 +18,14 @@ namespace AuctionLab.Api.Controllers
 
         [HttpGet]
         public async Task<ActionResult<List<AdminAuctionResponse>>> GetAuctions(
+            [FromQuery] AuctionStatus? status,
             [FromQuery] int page = 1,
             [FromQuery] int pageSize = 20,
             [FromQuery] string? search = null,
             CancellationToken cancellationToken = default)
         {
-            var response = await _service.GetAllAsync(page, pageSize, search, cancellationToken);
+            var resolvedStatus = status ?? AuctionStatus.All;
+            var response = await _service.GetAllAsync(page, pageSize, resolvedStatus, search, cancellationToken);
 
             return Ok(response);
         }

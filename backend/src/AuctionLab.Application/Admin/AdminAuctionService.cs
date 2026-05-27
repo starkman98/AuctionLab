@@ -1,6 +1,7 @@
 using AuctionLab.Application.Admin.DTOs;
 using AuctionLab.Application.Auctions.Exceptions;
 using AuctionLab.Application.Repositories;
+using AuctionLab.Domain.Enums;
 
 namespace AuctionLab.Application.Admin;
 
@@ -28,12 +29,12 @@ public class AdminAuctionService : IAdminAuctionService
         return AdminMapper.ToAuctionResponse(auction);
     }
 
-    public async Task<List<AdminAuctionResponse>> GetAllAsync(int page, int pageSize, string? search = null, CancellationToken cancellationToken = default)
+    public async Task<List<AdminAuctionResponse>> GetAllAsync(int page, int pageSize, AuctionStatus status, string? search = null, CancellationToken cancellationToken = default)
     {
         page = Math.Max(1, page);
         pageSize = Math.Clamp(pageSize, 1, 100);
 
-        var auctions = await _repo.GetAllAsync(page, pageSize, search, cancellationToken);
+        var auctions = await _repo.GetAllAsync(page, pageSize, status, search, cancellationToken);
 
         return auctions.Select(auction => AdminMapper.ToAuctionResponse(auction)).ToList();
     }

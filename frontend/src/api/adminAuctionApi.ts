@@ -2,12 +2,13 @@ import type { AdminAuctionResponse } from "@/types/admin";
 import { apiFetch } from "./apiFetch";
 
 export const getAuctions = (
+  status?: string,
   page?: number,
   pageSize?: number,
   search?: string,
 ) =>
   apiFetch<AdminAuctionResponse[]>(
-    `/admin/auctions?page=${page ?? 1}&pageSize=${pageSize ?? 20}&search=${search ?? ""}`,
+    `/admin/auctions?status=${status ?? "all"}&page=${page ?? 1}&pageSize=${pageSize ?? 20}&search=${search ?? ""}`,
   );
 
 export const inactivateAuction = (auctionId: number) =>

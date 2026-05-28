@@ -272,7 +272,7 @@ Exempel på route-tänk:
 ### Steg 3 – Auktioner i frontend
 
 - [x] Lista öppna auktioner
-- [ ] Sök auktioner via titel
+- [x] Sök auktioner via titel
 - [x] Visa auktionens titel, beskrivning, pris, slutdatum och skapare
 - [x] Klicka in på en auktion
 - [x] Visa detaljer
@@ -291,7 +291,7 @@ Exempel på route-tänk:
 
 ### Steg 5 – VG: avslutade auktioner i frontend
 
-- [ ] Lägg till filter: öppna / avslutade auktioner
+- [x] Lägg till filter: öppna / avslutade auktioner
 - [x] För avslutade auktioner: visa bara vinnande bud
 - [x] Visa inte budhistorik
 - [x] Visa inte budformulär

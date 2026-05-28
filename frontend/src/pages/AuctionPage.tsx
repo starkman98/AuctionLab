@@ -89,7 +89,7 @@ const AuctionPage = () => {
   };
 
   const handleRetractBid = async () => {
-    if (!auction?.bids[0].bidId) return;
+    if (!auction?.bids?.[0]?.bidId) return;
 
     setRetractBidError("");
 

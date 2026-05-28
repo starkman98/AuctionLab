@@ -21,10 +21,6 @@ const AuctionsPage = () => {
   const pageSize = 5;
 
   useEffect(() => {
-    setPage(1);
-  }, [debouncedSearch, setPage]);
-
-  useEffect(() => {
     const fetchAuctions = async () => {
       setIsLoading(true);
       setError("");
@@ -51,7 +47,10 @@ const AuctionsPage = () => {
       <div className="flex gap-x-2">
         <input
           value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={(e) => {
+            setSearch(e.target.value);
+            setPage(1);
+          }}
           placeholder="Search auctions..."
           className="border px-3"
         />

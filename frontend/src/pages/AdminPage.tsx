@@ -9,29 +9,19 @@ const AdminPage = () => {
     | "users"
     | "auctions";
 
-  const tabStyle = "px-10 py-2 cursor-pointer";
-  const activeTabStyle = " border-b-3 font-bold bg-gray-100";
-
   return (
-    <section className="text-lg">
-      <h1 className="font-bold text-3xl text-center mt-4">Admin dashboard</h1>
-      <div className="flex justify-center p-4 gap-4">
+    <section className="app-page">
+      <p className="app-kicker">Administration</p>
+      <h1 className="app-title">Dashboard</h1>
+      <div className="app-toolbar">
         <button
-          className={
-            activeTab === "users"
-              ? tabStyle + activeTabStyle
-              : tabStyle + " hover:underline"
-          }
+          className={`app-button ${activeTab === "users" ? "app-button-primary" : ""}`}
           onClick={() => setSearchParams({ tab: "users" })}
         >
           Users
         </button>
         <button
-          className={
-            activeTab === "auctions"
-              ? tabStyle + activeTabStyle
-              : tabStyle + " hover:underline"
-          }
+          className={`app-button ${activeTab === "auctions" ? "app-button-primary" : ""}`}
           onClick={() => setSearchParams({ tab: "auctions" })}
         >
           Auctions

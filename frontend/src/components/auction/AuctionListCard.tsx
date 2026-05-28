@@ -7,7 +7,7 @@ const AuctionListCard = ({
   auctions: AuctionSummaryResponse[];
 }) => {
   return (
-    <ul>
+    <ul className="app-card-grid">
       {auctions.map((auction) => (
         <li key={auction.auctionId}>
           <AuctionCard auction={auction} />

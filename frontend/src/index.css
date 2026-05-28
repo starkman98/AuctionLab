@@ -1,9 +1,300 @@
 @import "tailwindcss";
 
+@layer base {
+  :root {
+    color: #111;
+    background: #fff;
+    font-family:
+      ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+      sans-serif;
+  }
+
+  body {
+    margin: 0;
+    min-width: 320px;
+    background: #fff;
+  }
+
+  button,
+  input,
+  textarea {
+    font: inherit;
+  }
+
+  button:focus-visible,
+  a:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible {
+    outline: 2px solid #111;
+    outline-offset: 3px;
+  }
+}
+
+@layer components {
+  .app-page {
+    width: min(100%, 1120px);
+    margin-inline: auto;
+    padding: 40px 20px 64px;
+  }
+
+  .app-page-narrow {
+    width: min(100%, 720px);
+    margin-inline: auto;
+    padding: 40px 20px 64px;
+  }
+
+  .app-title {
+    font-size: clamp(2.25rem, 5vw, 4.75rem);
+    line-height: 0.95;
+    font-weight: 900;
+    letter-spacing: 0;
+    text-transform: uppercase;
+  }
+
+  .app-kicker {
+    margin-bottom: 8px;
+    font-size: 0.8rem;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+
+  .app-subtitle {
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    line-height: 1;
+    font-weight: 900;
+    text-transform: uppercase;
+  }
+
+  .app-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    margin-block: 28px;
+  }
+
+  .app-input,
+  .app-textarea {
+    width: 100%;
+    border: 1px solid #111;
+    background: #fff;
+    padding: 11px 12px;
+    box-shadow: 3px 3px 0 #111;
+  }
+
+  .app-textarea {
+    min-height: 120px;
+    resize: vertical;
+  }
+
+  .app-label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 0.78rem;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+
+  .app-field {
+    margin-bottom: 18px;
+  }
+
+  .app-form {
+    border: 1px solid #111;
+    background: #fff;
+    padding: 28px;
+    box-shadow: 7px 7px 0 #111;
+  }
+
+  .app-button {
+    display: inline-flex;
+    min-height: 42px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #111;
+    background: #fff;
+    color: #111;
+    padding: 9px 16px;
+    font-weight: 800;
+    text-transform: uppercase;
+    box-shadow: 3px 3px 0 #111;
+    cursor: pointer;
+  }
+
+  .app-button:hover:not(:disabled) {
+    background: #111;
+    color: #fff;
+  }
+
+  .app-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.45;
+  }
+
+  .app-button-primary,
+  .app-filter-active {
+    background: #111;
+    color: #fff;
+  }
+
+  .app-filter {
+    min-height: 36px;
+    border-radius: 999px;
+    box-shadow: none;
+    font-size: 0.82rem;
+  }
+
+  .app-card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+    gap: 24px;
+  }
+
+  .auction-card,
+  .bid-card {
+    height: 100%;
+    border: 1px solid #111;
+    background: #fff;
+    box-shadow: 6px 6px 0 #111;
+  }
+
+  .auction-card img,
+  .bid-card img {
+    aspect-ratio: 4 / 3;
+    width: 100%;
+    object-fit: cover;
+    border-bottom: 1px solid #111;
+    background: #eee;
+    filter: grayscale(1);
+  }
+
+  .app-card-body {
+    display: flex;
+    min-height: 220px;
+    flex-direction: column;
+    gap: 10px;
+    padding: 18px;
+  }
+
+  .app-card-title {
+    font-size: 1.25rem;
+    line-height: 1.1;
+    font-weight: 900;
+    text-transform: uppercase;
+  }
+
+  .app-muted {
+    color: #555;
+    font-size: 0.92rem;
+  }
+
+  .app-price {
+    font-size: 1.45rem;
+    font-weight: 900;
+  }
+
+  .app-detail {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
+    gap: 32px;
+  }
+
+  .app-detail-image {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border: 1px solid #111;
+    box-shadow: 7px 7px 0 #111;
+    filter: grayscale(1);
+  }
+
+  .app-stat {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    border-bottom: 1px solid #ddd;
+    padding-block: 12px;
+  }
+
+  .app-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 18px;
+    background: rgba(0, 0, 0, 0.68);
+  }
+
+  .app-modal {
+    width: min(100%, 560px);
+    max-height: 88vh;
+    overflow: auto;
+    border: 1px solid #111;
+    background: #fff;
+    box-shadow: 7px 7px 0 #111;
+  }
+
+  .app-modal-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #111;
+    padding: 14px 18px;
+  }
+
+  .app-table-wrap {
+    overflow-x: auto;
+    border: 1px solid #111;
+    background: #fff;
+  }
+
+  .app-table {
+    width: 100%;
+    min-width: 680px;
+    border-collapse: collapse;
+  }
+
+  .app-table th,
+  .app-table td {
+    border-bottom: 1px solid #ddd;
+    padding: 14px 16px;
+    text-align: left;
+  }
+
+  .app-table th {
+    background: #111;
+    color: #fff;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+  }
+
+  .app-error {
+    margin-block: 10px;
+    border-left: 4px solid #111;
+    padding-left: 10px;
+    font-weight: 700;
+  }
+}
+
+@media (max-width: 760px) {
+  @layer components {
+    .app-detail {
+      grid-template-columns: 1fr;
+    }
+
+    .app-form {
+      padding: 20px;
+    }
+  }
+}
+
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
 }
+
 input[type="number"] {
   -moz-appearance: textfield;
 }

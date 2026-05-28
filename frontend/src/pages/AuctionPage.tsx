@@ -105,10 +105,10 @@ const AuctionPage = () => {
           },
       );
     } catch (error) {
-      setRetractBidError(
-        error instanceof Error ? error.message : "Failed to retract bid",
-      );
-      window.alert(retractBidError);
+      const message =
+        error instanceof Error ? error.message : "Failed to retract bid";
+      setRetractBidError(message);
+      window.alert(message);
     }
   };
 
@@ -121,13 +121,12 @@ const AuctionPage = () => {
       const response = await updateAuction(auction?.auctionId, form);
 
       setAuction(response);
-
       setShowUpdateModal(false);
     } catch (error) {
       if (error instanceof ApiError && error.fieldErrors) {
         setUpdateFieldErrors(error.fieldErrors);
       } else {
-        setError(
+        setUpdateError(
           error instanceof Error
             ? error.message
             : "Failed to update the auction",
@@ -138,228 +137,218 @@ const AuctionPage = () => {
     }
   };
 
-  if (isLoading) return <p>Loading ...</p>;
-  if (error) return <p className="text-red-600">{error}</p>;
-  if (!auction) return <p>404 Auction Not Found</p>;
+  if (isLoading) return <p className="app-page">Loading ...</p>;
+  if (error) return <p className="app-page app-error">{error}</p>;
+  if (!auction) return <p className="app-page">404 Auction Not Found</p>;
 
   return (
-    <section className="text-lg px-6 py-12 mx-auto max-w-3xl">
-      <img src={getImageUrl(auction.imageUrl)} alt={auction?.title} />
-      <h2 className="text-xl">Seller: {auction.ownerUsername}</h2>
-      <h1 className="font-semibold text-xl">{auction.title}</h1>
-      <p>
-        {auction.bids.length > 0
-          ? "Current bid: " + auction.currentHighestBid
-          : "Staring price: " + auction.startingPrice}
-      </p>
-      <p>
-        {auction.isOpen ? "Ends: " : "Ended: "} {formatDate(auction.endTime)}
-      </p>
-      <h2 className="font-bold text-xl">Description</h2>
-      <p>{auction.description}</p>
-      {user?.userId === auction.ownerId && auction.isOpen && (
-        <button
-          className="px-12 py-2 bg-neutral-200 mt-4 cursor-pointer"
-          onClick={() => {
-            setShowUpdateModal(true);
-            setUpdateError("");
-            setUpdateFieldErrors({});
-            setForm({
-              title: auction.title,
-              description: auction.description,
-              imageUrl: auction.imageUrl ?? undefined,
-            });
-          }}
-        >
-          Update
-        </button>
-      )}
-      {user?.userId !== auction.ownerId &&
-        auction.isOpen &&
-        isAuthenticated &&
-        (userHasHighestBid ? (
-          <button
-            onClick={() => {
-              const ok = window.confirm(
-                "Are you sure that you want to retract your bid?",
-              );
-              if (ok) handleRetractBid();
-            }}
-            className="px-12 py-2 bg-green-900 text-neutral-50 mt-4 cursor-pointer"
-          >
-            Retract bid
-          </button>
-        ) : (
-          <button
-            onClick={() => {
-              setBidAmount({
-                amount:
-                  auction.currentHighestBid !== null
-                    ? auction.currentHighestBid + 50
-                    : auction.startingPrice,
-              });
-              setShowPlaceBidModal(true);
-            }}
-            className="px-12 py-2 bg-green-900 text-neutral-50 mt-4 cursor-pointer"
-          >
-            Place bid
-          </button>
-        ))}
-      {auction.bids.length > 0 && auction.isOpen && (
-        <button
-          className="underline cursor-pointer"
-          onClick={() => setShowBidsModal(true)}
-        >
-          Show bids
-        </button>
-      )}
+    <section className="app-page">
+      <div className="app-detail">
+        <img
+          className="app-detail-image"
+          src={getImageUrl(auction.imageUrl)}
+          alt={auction?.title}
+        />
+        <div>
+          <p className="app-kicker">Seller: {auction.ownerUsername}</p>
+          <h1 className="app-title">{auction.title}</h1>
+          <div className="my-6">
+            <div className="app-stat">
+              <span className="app-muted">
+                {auction.bids.length > 0 ? "Current bid" : "Starting price"}
+              </span>
+              <strong>
+                {auction.currentHighestBid ?? auction.startingPrice} kr
+              </strong>
+            </div>
+            <div className="app-stat">
+              <span className="app-muted">{auction.isOpen ? "Ends" : "Ended"}</span>
+              <strong>{formatDate(auction.endTime)}</strong>
+            </div>
+            <div className="app-stat">
+              <span className="app-muted">Bids</span>
+              <strong>{auction.bids.length}</strong>
+            </div>
+          </div>
+          <div className="flex flex-wrap gap-3">
+            {user?.userId === auction.ownerId && auction.isOpen && (
+              <button
+                className="app-button"
+                onClick={() => {
+                  setShowUpdateModal(true);
+                  setUpdateError("");
+                  setUpdateFieldErrors({});
+                  setForm({
+                    title: auction.title,
+                    description: auction.description,
+                    imageUrl: auction.imageUrl ?? undefined,
+                  });
+                }}
+              >
+                Update
+              </button>
+            )}
+            {user?.userId !== auction.ownerId &&
+              auction.isOpen &&
+              isAuthenticated &&
+              (userHasHighestBid ? (
+                <button
+                  onClick={() => {
+                    const ok = window.confirm(
+                      "Are you sure that you want to retract your bid?",
+                    );
+                    if (ok) handleRetractBid();
+                  }}
+                  className="app-button app-button-primary"
+                >
+                  Retract bid
+                </button>
+              ) : (
+                <button
+                  onClick={() => {
+                    setBidAmount({
+                      amount:
+                        auction.currentHighestBid !== null
+                          ? auction.currentHighestBid + 50
+                          : auction.startingPrice,
+                    });
+                    setShowPlaceBidModal(true);
+                  }}
+                  className="app-button app-button-primary"
+                >
+                  Place bid
+                </button>
+              ))}
+            {auction.bids.length > 0 && auction.isOpen && (
+              <button className="app-button" onClick={() => setShowBidsModal(true)}>
+                Show bids
+              </button>
+            )}
+          </div>
+          {retractBidError && <p className="app-error">{retractBidError}</p>}
+        </div>
+      </div>
+
+      <div className="mt-12 border-t border-black pt-8">
+        <h2 className="app-subtitle mb-4">Description</h2>
+        <p className="max-w-3xl text-lg leading-8">{auction.description}</p>
+      </div>
+
       {showPlaceBidModal && (
         <div
-          className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
+          className="app-modal-backdrop"
           onClick={() => setShowPlaceBidModal(false)}
         >
-          <div
-            className="bg-white text-lg"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="relative flex items-center justify-center w-full border-b border-gray-300">
-              <h2 className="text-center font-bold py-4">Place bid</h2>
-              <button
-                className="absolute right-4 text-2xl cursor-pointer"
-                onClick={() => setShowPlaceBidModal(false)}
-              >
+          <div className="app-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="app-modal-head">
+              <h2 className="app-subtitle text-xl">Place bid</h2>
+              <button className="app-button" onClick={() => setShowPlaceBidModal(false)}>
                 X
               </button>
             </div>
-            {placeBidError && <p className="text-red-600">{placeBidError}</p>}
-            <div className="p-4 border-b border-gray-300">
-              <p>
-                Leading bid:{" "}
-                <span className="font-semibold">
-                  {auction.currentHighestBid} kr
-                </span>
-              </p>
-            </div>
-            <div className="flex flex-col p-4">
-              <label>Amount</label>
-              <div className="relative w-full">
+            <div className="p-5">
+              {placeBidError && <p className="app-error">{placeBidError}</p>}
+              <div className="app-stat">
+                <span className="app-muted">Leading bid</span>
+                <strong>{auction.currentHighestBid ?? 0} kr</strong>
+              </div>
+              <div className="app-field mt-5">
+                <label className="app-label" htmlFor="bidAmount">
+                  Amount
+                </label>
                 <input
+                  id="bidAmount"
                   type="number"
                   value={bidAmount.amount}
                   onChange={(e) =>
                     setBidAmount({ amount: Number(e.target.value) })
                   }
                   placeholder="Your bid"
-                  className="bg-neutral-200 pr-8 p-1 w-full"
+                  className="app-input"
                 />
-                <span className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none">
-                  kr
-                </span>
               </div>
-            </div>
-            <div className="p-4">
-              <button
-                onClick={handlePlaceBid}
-                className="px-12 py-2 bg-green-900 text-neutral-50 mr-2 cursor-pointer"
-              >
-                Place bid
-              </button>
-              <button
-                onClick={() => setShowPlaceBidModal(false)}
-                className="px-12 py-2 bg-neutral-200 cursor-pointer"
-              >
-                Cancel
-              </button>
+              <div className="flex flex-wrap gap-3">
+                <button onClick={handlePlaceBid} className="app-button app-button-primary">
+                  Place bid
+                </button>
+                <button onClick={() => setShowPlaceBidModal(false)} className="app-button">
+                  Cancel
+                </button>
+              </div>
             </div>
           </div>
         </div>
       )}
+
       {showBidsModal && auction.isOpen && (
-        <div
-          className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
-          onClick={() => setShowBidsModal(false)}
-        >
-          <div
-            className="bg-white text-lg"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="relative flex items-center justify-center w-full border-b border-gray-300">
-              <h2 className="text-center font-bold py-4">Bid history</h2>
-              <button
-                className="absolute right-4 text-2xl cursor-pointer"
-                onClick={() => setShowBidsModal(false)}
-              >
+        <div className="app-modal-backdrop" onClick={() => setShowBidsModal(false)}>
+          <div className="app-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="app-modal-head">
+              <h2 className="app-subtitle text-xl">Bid history</h2>
+              <button className="app-button" onClick={() => setShowBidsModal(false)}>
                 X
               </button>
             </div>
-            <div className="overflow-y-auto max-h-[70vh] pb-4 px-4">
-              <p className="py-4">
+            <div className="p-5">
+              <p className="mb-4 font-bold">
                 {auction.bids.length} bids |{" "}
-                {new Set(auction.bids.map((b) => b.bidderUsername)).size}{" "}
-                bidders
+                {new Set(auction.bids.map((b) => b.bidderUsername)).size} bidders
               </p>
-              {error && <p className="text-red-600">{error}</p>}
-
-              <div>
-                <table>
-                  <thead className="font-bold border-b border-gray-300">
+              <div className="app-table-wrap">
+                <table className="app-table">
+                  <thead>
                     <tr>
-                      <th className="text-left">Bidder</th>
-                      <th className="text-center">Bid</th>
-                      <th className="text-right">Date</th>
+                      <th>Bidder</th>
+                      <th>Bid</th>
+                      <th>Date</th>
                     </tr>
                   </thead>
                   <tbody>
                     {auction.bids.map((b) => (
-                      <tr className="border-b border-gray-300 pt-4">
-                        <td className="pr-8 py-4">{b.bidderUsername}</td>
-                        <td className="px-8 font-semibold">{b.amount} kr</td>
-                        <td className="pl-8">{formatDate(b.createdAt)}</td>
+                      <tr key={b.bidId}>
+                        <td>{b.bidderUsername}</td>
+                        <td className="font-semibold">{b.amount} kr</td>
+                        <td>{formatDate(b.createdAt)}</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
-            </div>
-
-            <div className="p-4">
-              <button
-                onClick={() => setShowBidsModal(false)}
-                className="w-full px-12 py-2 bg-neutral-200 cursor-pointer"
-              >
+              <button onClick={() => setShowBidsModal(false)} className="app-button mt-5 w-full">
                 Close
               </button>
             </div>
           </div>
         </div>
       )}
+
       {showUpdateModal && (
         <div
-          className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
+          className="app-modal-backdrop"
           onClick={() => setShowUpdateModal(false)}
         >
-          <div className="bg-white" onClick={(e) => e.stopPropagation()}>
-            <div className="relative flex items-center justify-center w-full border-b border-gray-300">
-              <h2 className="text-center font-bold py-4">Update auction</h2>
-              <button
-                className="absolute right-4 text-2xl cursor-pointer"
-                onClick={() => setShowUpdateModal(false)}
-              >
+          <div className="app-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="app-modal-head">
+              <h2 className="app-subtitle text-xl">Update auction</h2>
+              <button className="app-button" onClick={() => setShowUpdateModal(false)}>
                 X
               </button>
             </div>
-            {updateError && <p className="text-red-600">{updateError}</p>}
             <form
-              className="mx-auto max-w-2xl border border-neutral-800 p-8"
+              className="p-5"
               onSubmit={(e) => {
                 e.preventDefault();
                 void handleUpdate();
               }}
             >
-              <div className="flex flex-col mb-3">
-                <label>Title</label>
+              {updateError && <p className="app-error">{updateError}</p>}
+              <div className="app-field">
+                <label className="app-label" htmlFor="updateTitle">
+                  Title
+                </label>
                 <input
-                  className="bg-neutral-200"
+                  id="updateTitle"
+                  className="app-input"
                   name="title"
                   value={form.title}
                   onChange={handleChange}
@@ -368,15 +357,18 @@ const AuctionPage = () => {
                   autoComplete="off"
                 />
                 {updateFieldErrors.Title?.map((msg) => (
-                  <p key={msg} className="text-red-600">
+                  <p key={msg} className="app-error">
                     {msg}
                   </p>
                 ))}
               </div>
-              <div className="flex flex-col mb-3">
-                <label>Description</label>
+              <div className="app-field">
+                <label className="app-label" htmlFor="updateDescription">
+                  Description
+                </label>
                 <textarea
-                  className="bg-neutral-200 min-h-12 px-2 py-1"
+                  id="updateDescription"
+                  className="app-textarea"
                   name="description"
                   value={form.description}
                   onChange={handleChange}
@@ -384,15 +376,18 @@ const AuctionPage = () => {
                   autoComplete="off"
                 />
                 {updateFieldErrors.Description?.map((msg) => (
-                  <p key={msg} className="text-red-600">
+                  <p key={msg} className="app-error">
                     {msg}
                   </p>
                 ))}
               </div>
-              <div className="flex flex-col mb-3">
-                <label>Image URL</label>
+              <div className="app-field">
+                <label className="app-label" htmlFor="updateImageUrl">
+                  Image URL
+                </label>
                 <input
-                  className="bg-neutral-200"
+                  id="updateImageUrl"
+                  className="app-input"
                   name="imageUrl"
                   value={form.imageUrl}
                   onChange={handleChange}
@@ -401,24 +396,27 @@ const AuctionPage = () => {
                   autoComplete="off"
                 />
                 {updateFieldErrors.ImageUrl?.map((msg) => (
-                  <p key={msg} className="text-red-600">
+                  <p key={msg} className="app-error">
                     {msg}
                   </p>
                 ))}
               </div>
-              <button
-                className="px-12 py-2 bg-green-900 text-neutral-50 mt-4 mr-2 cursor-pointer"
-                type="submit"
-                disabled={isUpdating}
-              >
-                {isUpdating ? "Updating auction..." : "Update"}
-              </button>
-              <button
-                className="px-12 py-2 bg-neutral-200 cursor-pointer mt-4"
-                onClick={() => setShowUpdateModal(false)}
-              >
-                Cancel
-              </button>
+              <div className="flex flex-wrap gap-3">
+                <button
+                  className="app-button app-button-primary"
+                  type="submit"
+                  disabled={isUpdating}
+                >
+                  {isUpdating ? "Updating auction..." : "Update"}
+                </button>
+                <button
+                  className="app-button"
+                  type="button"
+                  onClick={() => setShowUpdateModal(false)}
+                >
+                  Cancel
+                </button>
+              </div>
             </form>
           </div>
         </div>

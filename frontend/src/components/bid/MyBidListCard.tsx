@@ -3,7 +3,7 @@ import MyBidCard from "./MyBidCard";
 
 const MyBidListCard = ({ myBids }: { myBids: MyBidResponse[] }) => {
   return (
-    <ul>
+    <ul className="app-card-grid">
       {myBids.map((bid) => (
         <li key={bid.auctionId}>
           <MyBidCard myBid={bid} />

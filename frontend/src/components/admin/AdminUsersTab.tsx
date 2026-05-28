@@ -95,69 +95,67 @@ const AdminUsersTab = () => {
   };
 
   return (
-    <section className="mx-auto max-w-4xl px-5">
-      <div className="flex justify-between">
-        <h2 className="text-2xl py-4">Users</h2>
+    <section>
+      <div className="app-toolbar justify-between">
+        <h2 className="app-subtitle">Users</h2>
         <input
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          placeholder="Search auctions..."
-          className="border px-3"
+          placeholder="Search users..."
+          className="app-input max-w-sm"
         />
-        <div className="text-red-600 flex items-end">
+        {isLoading && <Spinner sizeClass="h-8 w-8" thickClass="border-4" />}
+      </div>
+      {(statusError || changeRoleError || usersError) && (
+        <div className="app-error">
           {statusError && <p>{statusError}</p>}
           {changeRoleError && <p>{changeRoleError}</p>}
-          {usersError && <p>usersError</p>}
+          {usersError && <p>{usersError}</p>}
         </div>
-        {isLoading && <Spinner sizeClass="w-12 h-12" thickClass="border-4" />}
-      </div>
-      <table>
-        <thead>
-          <tr className="font-bold border-b border-gray-300">
-            <td>Username</td>
-            <td className="px-6">Email</td>
-            <td className="px-6">Role</td>
-            <td className="px-6">Status</td>
-            <td className="pl-6">Actions</td>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((user) => (
-            <tr className="border-b border-gray-300">
-              <td className="pr-6 py-4">{user.userName}</td>
-              <td className="px-6">{user.email}</td>
-              <td className="px-6">{user.role}</td>
-              <td className="px-6 min-w-30">
-                {user.isActive ? "Active" : "Inactive"}
-              </td>
-              <td className="pl-6">
-                <button
-                  className="px-2 py-0.5 border mr-4 min-w-30 hover:underline cursor-pointer"
-                  onClick={() => handleStatus(user)}
-                >
-                  {isLoadingStatusId === user.userId ? (
-                    <Spinner />
-                  ) : user.isActive ? (
-                    "Inactivate"
-                  ) : (
-                    "Activate"
-                  )}
-                </button>
-                <button
-                  className="px-2 py-0.5 border min-w-30 hover:underline cursor-pointer"
-                  onClick={() => handleChangeRole(user)}
-                >
-                  {isLoadingChangeRoleId === user.userId ? (
-                    <Spinner />
-                  ) : (
-                    "Change role"
-                  )}
-                </button>
-              </td>
+      )}
+      <div className="app-table-wrap">
+        <table className="app-table">
+          <thead>
+            <tr>
+              <th>Username</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Status</th>
+              <th>Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {users.map((user) => (
+              <tr key={user.userId}>
+                <td>{user.userName}</td>
+                <td>{user.email}</td>
+                <td>{user.role}</td>
+                <td>{user.isActive ? "Active" : "Inactive"}</td>
+                <td>
+                  <div className="flex flex-wrap gap-3">
+                    <button className="app-button" onClick={() => handleStatus(user)}>
+                      {isLoadingStatusId === user.userId ? (
+                        <Spinner />
+                      ) : user.isActive ? (
+                        "Inactivate"
+                      ) : (
+                        "Activate"
+                      )}
+                    </button>
+                    <button className="app-button" onClick={() => handleChangeRole(user)}>
+                      {isLoadingChangeRoleId === user.userId ? (
+                        <Spinner />
+                      ) : (
+                        "Change role"
+                      )}
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </section>
   );
 };

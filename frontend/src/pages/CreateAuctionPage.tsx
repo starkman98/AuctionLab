@@ -49,21 +49,23 @@ const CreateAuctionPage = () => {
   };
 
   return (
-    <section className="px-6 py-12">
-      <h1 className="mx auto font-bold text-3xl text-center mb-4">
-        Create new auction
-      </h1>
+    <section className="app-page-narrow">
+      <p className="app-kicker">New lot</p>
+      <h1 className="app-title mb-8">Create Auction</h1>
       <form
-        className="mx-auto max-w-2xl text-lg border border-neutral-800 p-8"
+        className="app-form"
         onSubmit={(e) => {
           e.preventDefault();
           void handleSubmit();
         }}
       >
-        <div className="flex flex-col mb-3">
-          <label>Title</label>
+        <div className="app-field">
+          <label className="app-label" htmlFor="title">
+            Title
+          </label>
           <input
-            className="bg-neutral-200"
+            id="title"
+            className="app-input"
             name="title"
             value={form.title}
             onChange={handleChange}
@@ -72,13 +74,18 @@ const CreateAuctionPage = () => {
             autoComplete="off"
           />
           {fieldErrors.Title?.map((msg) => (
-            <p key={msg}>{msg}</p>
+            <p key={msg} className="app-error">
+              {msg}
+            </p>
           ))}
         </div>
-        <div className="flex flex-col mb-3">
-          <label>Description</label>
+        <div className="app-field">
+          <label className="app-label" htmlFor="description">
+            Description
+          </label>
           <textarea
-            className="bg-neutral-200 min-h-12 px-2 py-1"
+            id="description"
+            className="app-textarea"
             name="description"
             value={form.description}
             onChange={handleChange}
@@ -86,13 +93,18 @@ const CreateAuctionPage = () => {
             autoComplete="off"
           />
           {fieldErrors.Description?.map((msg) => (
-            <p key={msg}>{msg}</p>
+            <p key={msg} className="app-error">
+              {msg}
+            </p>
           ))}
         </div>
-        <div className="flex flex-col mb-3">
-          <label>Image URL</label>
+        <div className="app-field">
+          <label className="app-label" htmlFor="imageUrl">
+            Image URL
+          </label>
           <input
-            className="bg-neutral-200"
+            id="imageUrl"
+            className="app-input"
             name="imageUrl"
             value={form.imageUrl}
             onChange={handleChange}
@@ -101,43 +113,60 @@ const CreateAuctionPage = () => {
             autoComplete="off"
           />
           {fieldErrors.ImageUrl?.map((msg) => (
-            <p key={msg}>{msg}</p>
+            <p key={msg} className="app-error">
+              {msg}
+            </p>
           ))}
         </div>
-        <div className="flex flex-col mb-3">
-          <label>Starting price</label>
-          <input
-            className="bg-neutral-200"
-            name="startingPrice"
-            value={form.startingPrice}
-            onChange={handleChange}
-            placeholder="Start price"
-            type="number"
-            autoComplete="off"
-          />
-          {fieldErrors.StartingPrice?.map((msg) => (
-            <p key={msg}>{msg}</p>
-          ))}
+        <div className="grid gap-4 md:grid-cols-2">
+          <div className="app-field">
+            <label className="app-label" htmlFor="startingPrice">
+              Starting price
+            </label>
+            <input
+              id="startingPrice"
+              className="app-input"
+              name="startingPrice"
+              value={form.startingPrice}
+              onChange={handleChange}
+              placeholder="Start price"
+              type="number"
+              autoComplete="off"
+            />
+            {fieldErrors.StartingPrice?.map((msg) => (
+              <p key={msg} className="app-error">
+                {msg}
+              </p>
+            ))}
+          </div>
+          <div className="app-field">
+            <label className="app-label" htmlFor="reservationPrice">
+              Reservation price
+            </label>
+            <input
+              id="reservationPrice"
+              className="app-input"
+              name="reservationPrice"
+              value={form.reservationPrice}
+              onChange={handleChange}
+              placeholder="Reservation price"
+              type="number"
+              autoComplete="off"
+            />
+            {fieldErrors.ReservationPrice?.map((msg) => (
+              <p key={msg} className="app-error">
+                {msg}
+              </p>
+            ))}
+          </div>
         </div>
-        <div className="flex flex-col mb-3">
-          <label>Reservation price</label>
+        <div className="app-field">
+          <label className="app-label" htmlFor="endTime">
+            Endtime
+          </label>
           <input
-            className="bg-neutral-200"
-            name="reservationPrice"
-            value={form.reservationPrice}
-            onChange={handleChange}
-            placeholder="Reservation price"
-            type="number"
-            autoComplete="off"
-          />
-          {fieldErrors.ReservationPrice?.map((msg) => (
-            <p key={msg}>{msg}</p>
-          ))}
-        </div>
-        <div className="flex flex-col mb-3">
-          <label>Endtime</label>
-          <input
-            className="bg-neutral-200"
+            id="endTime"
+            className="app-input"
             name="endTime"
             value={form.endTime}
             onChange={handleChange}
@@ -146,12 +175,14 @@ const CreateAuctionPage = () => {
             autoComplete="off"
           />
           {fieldErrors.EndTime?.map((msg) => (
-            <p key={msg}>{msg}</p>
+            <p key={msg} className="app-error">
+              {msg}
+            </p>
           ))}
         </div>
-        {error && <p>{error}</p>}
+        {error && <p className="app-error">{error}</p>}
         <button
-          className="px-12 py-2 w-full bg-green-900 text-neutral-50 mt-4"
+          className="app-button app-button-primary w-full"
           type="submit"
           disabled={isSubmitting}
         >

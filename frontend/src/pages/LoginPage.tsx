@@ -43,39 +43,66 @@ const LoginPage = () => {
   };
 
   return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        void handleSubmit();
-      }}
-    >
-      <input
-        name="userName"
-        value={form.userName}
-        onChange={handleChange}
-        placeholder="Username"
-        type="text"
-        autoComplete="username"
-      />
-      {fieldErrors.UserName?.map((msg) => (
-        <p key={msg}>{msg}</p>
-      ))}
-      <input
-        name="password"
-        value={form.password}
-        onChange={handleChange}
-        placeholder="Password"
-        type="password"
-        autoComplete="current-password"
-      />
-      {fieldErrors.Password?.map((msg) => (
-        <p key={msg}>{msg}</p>
-      ))}
-      {error && <p>{error}</p>}
-      <button type="submit" disabled={isSubmitting}>
-        {isSubmitting ? "Logging in..." : "Log in"}
-      </button>
-    </form>
+    <section className="app-page-narrow">
+      <p className="app-kicker">Account</p>
+      <h1 className="app-title mb-8">Login</h1>
+      <form
+        className="app-form"
+        onSubmit={(e) => {
+          e.preventDefault();
+          void handleSubmit();
+        }}
+      >
+        <div className="app-field">
+          <label className="app-label" htmlFor="userName">
+            Username
+          </label>
+          <input
+            id="userName"
+            className="app-input"
+            name="userName"
+            value={form.userName}
+            onChange={handleChange}
+            placeholder="Username"
+            type="text"
+            autoComplete="username"
+          />
+          {fieldErrors.UserName?.map((msg) => (
+            <p key={msg} className="app-error">
+              {msg}
+            </p>
+          ))}
+        </div>
+        <div className="app-field">
+          <label className="app-label" htmlFor="password">
+            Password
+          </label>
+          <input
+            id="password"
+            className="app-input"
+            name="password"
+            value={form.password}
+            onChange={handleChange}
+            placeholder="Password"
+            type="password"
+            autoComplete="current-password"
+          />
+          {fieldErrors.Password?.map((msg) => (
+            <p key={msg} className="app-error">
+              {msg}
+            </p>
+          ))}
+        </div>
+        {error && <p className="app-error">{error}</p>}
+        <button
+          className="app-button app-button-primary w-full"
+          type="submit"
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? "Logging in..." : "Log in"}
+        </button>
+      </form>
+    </section>
   );
 };
 

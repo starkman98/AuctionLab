@@ -42,9 +42,16 @@ const AuctionsPage = () => {
   }, [debouncedSearch, status, page, pageSize]);
 
   return (
-    <section className="text-lg">
-      <h1>Auctions</h1>
-      <div className="flex gap-x-2">
+    <section className="app-page">
+      <div className="flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <p className="app-kicker">Browse lots</p>
+          <h1 className="app-title">Auctions</h1>
+        </div>
+        {isLoading && <Spinner sizeClass="h-8 w-8" thickClass="border-4" />}
+      </div>
+
+      <div className="app-toolbar">
         <input
           value={search}
           onChange={(e) => {
@@ -52,7 +59,7 @@ const AuctionsPage = () => {
             setPage(1);
           }}
           placeholder="Search auctions..."
-          className="border px-3"
+          className="app-input max-w-md"
         />
         {statuses.map((s) => (
           <button
@@ -61,35 +68,33 @@ const AuctionsPage = () => {
               setStatus(s);
               setPage(1);
             }}
-            className={`capitalize px-4 py-1 rounded-full border text-sm font-medium transition-colors cursor-pointer
-              ${
-                status === s
-                  ? "bg-black text-white border-black"
-                  : "bg-white text-gray-600 broder-gray-300 hover:border-gray-500 hover:underline"
-              }`}
+            className={`app-button app-filter capitalize ${
+              status === s ? "app-filter-active" : ""
+            }`}
           >
             {s}
           </button>
         ))}
       </div>
-      {isLoading && <Spinner />}
-      {error && <p>{error}</p>}
+
+      {error && <p className="app-error">{error}</p>}
       <AuctionListCard auctions={auctions} />
-      <div className="flex justify-center gap-x-4">
+
+      <div className="mt-10 flex items-center justify-center gap-4">
         <button
-          className="px-4 border cursor-pointer hover:underline disabled:opacity-40 disabled:hover:no-underline"
+          className="app-button"
           onClick={() => setPage(page - 1)}
           disabled={page === 1}
         >
-          ← Prev
+          Prev
         </button>
-        <p>{page}</p>
+        <p className="font-black uppercase">Page {page}</p>
         <button
-          className="px-4 border cursor-pointer hover:underline disabled:opacity-40 disabled:hover:no-underline"
+          className="app-button"
           onClick={() => setPage(page + 1)}
           disabled={page === totalPages}
         >
-          Next →
+          Next
         </button>
       </div>
     </section>

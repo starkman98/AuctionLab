@@ -21,26 +21,25 @@ const MyAuctionsPage = () => {
     };
     fetchMyAuctions();
   }, [debouncedSearch, status]);
+
   return (
-    <section className="text-lg">
-      <h1>{user?.userName}:s Auctions</h1>
-      <div className="flex gap-x-2">
+    <section className="app-page">
+      <p className="app-kicker">{user?.userName}'s listings</p>
+      <h1 className="app-title">My Auctions</h1>
+      <div className="app-toolbar">
         <input
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search auctions..."
-          className="border px-3"
+          className="app-input max-w-md"
         />
         {statuses.map((s) => (
           <button
             key={s}
             onClick={() => setStatus(s)}
-            className={`capitalize px-4 py-1 rounded-full border text-sm font-medium transition-colors cursor-pointer 
-              ${
-                status === s
-                  ? "bg-black text-white border-black"
-                  : "bg-white text-gray-600 broder-gray-300 hover:border-gray-500 hover:underline"
-              }`}
+            className={`app-button app-filter capitalize ${
+              status === s ? "app-filter-active" : ""
+            }`}
           >
             {s}
           </button>

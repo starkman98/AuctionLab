@@ -6,7 +6,7 @@ const Spinner = ({
   thickClass?: string;
 }) => (
   <span
-    className={`inline-block ${sizeClass} ${thickClass} border-t-transparent rounded-full animate-spin`}
+    className={`inline-block ${sizeClass} ${thickClass} rounded-full border-black border-t-transparent animate-spin`}
   />
 );
 

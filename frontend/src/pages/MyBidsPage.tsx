@@ -20,14 +20,17 @@ const MyBidsPage = () => {
   }, [debouncedSearch]);
 
   return (
-    <section className="text-lg">
-      <h1>{user?.userName}:s Bids</h1>
-      <input
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        placeholder="Search bid auctions..."
-        className="border px-3"
-      />
+    <section className="app-page">
+      <p className="app-kicker">{user?.userName}'s bidding</p>
+      <h1 className="app-title">My Bids</h1>
+      <div className="app-toolbar">
+        <input
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Search bid auctions..."
+          className="app-input max-w-md"
+        />
+      </div>
       <MyBidListCard myBids={myBids} />
     </section>
   );

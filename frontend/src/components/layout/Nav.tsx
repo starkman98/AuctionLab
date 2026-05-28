@@ -4,11 +4,12 @@ import { NavLink } from "react-router";
 const Nav = () => {
   const { user, isAuthenticated, logout } = useAuth();
 
-  const navStyle = "flex items-center hover:bg-gray-100 px-4";
-  const activeNavStyle = navStyle + " font-bold border-b-3 bg-gray-100";
+  const navStyle =
+    "flex items-center whitespace-nowrap border-l border-black px-3 text-sm font-bold uppercase hover:bg-black hover:text-white md:px-4";
+  const activeNavStyle = navStyle + " bg-black text-white";
 
   return (
-    <nav className="text-xl flex items-stretch h-full text-center">
+    <nav className="flex h-full items-stretch text-center">
       <NavLink
         to="/"
         className={({ isActive }) => (isActive ? activeNavStyle : navStyle)}
@@ -72,7 +73,7 @@ const Nav = () => {
         </NavLink>
       )}
       {isAuthenticated && (
-        <button onClick={logout} className={navStyle + " cursor-pointer"}>
+        <button onClick={logout} className={navStyle}>
           Logout
         </button>
       )}

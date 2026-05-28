@@ -34,7 +34,6 @@ const ProfilePage = () => {
 
     try {
       await changePassword(form);
-
       setShowChangePasswordModal(false);
     } catch (error) {
       if (error instanceof ApiError && error.fieldErrors) {
@@ -52,27 +51,33 @@ const ProfilePage = () => {
   };
 
   if (!isAuthenticated) navigate("/login");
-  if (error) return <p>{error}</p>;
+  if (error && !showChangePasswordModal) {
+    return <p className="app-page app-error">{error}</p>;
+  }
 
   return (
-    <section className="text-lg px-6 py-12 mx-auto max-w-3xl">
-      <h1 className="text-3xl font-bold text-center">{user?.userName}</h1>
-      <p>
-        Firstname: <span className="font-semibold">{user?.firstName}</span>
-      </p>
-      <p>
-        Lastname: <span className="font-semibold">{user?.lastName}</span>
-      </p>
-      <p>
-        Email: <span className="font-semibold">{user?.email}</span>
-      </p>
-      <p>
-        Account created:{" "}
-        <span className="font-semibold">
-          {formatDate(user?.createdAt ?? "")}
-        </span>
-      </p>
-      <div className="py-4">
+    <section className="app-page-narrow">
+      <p className="app-kicker">Profile</p>
+      <h1 className="app-title mb-8">{user?.userName}</h1>
+      <div className="app-form">
+        <div className="mb-6">
+          <div className="app-stat">
+            <span className="app-muted">Firstname</span>
+            <strong>{user?.firstName}</strong>
+          </div>
+          <div className="app-stat">
+            <span className="app-muted">Lastname</span>
+            <strong>{user?.lastName}</strong>
+          </div>
+          <div className="app-stat">
+            <span className="app-muted">Email</span>
+            <strong>{user?.email}</strong>
+          </div>
+          <div className="app-stat">
+            <span className="app-muted">Account created</span>
+            <strong>{formatDate(user?.createdAt ?? "")}</strong>
+          </div>
+        </div>
         <button
           onClick={() => {
             setShowChangePasswordModal(true);
@@ -80,7 +85,7 @@ const ProfilePage = () => {
             setError("");
             setFieldErrors({});
           }}
-          className="w-full px-12 py-2 bg-neutral-200 cursor-pointer"
+          className="app-button app-button-primary w-full"
         >
           Change password
         </button>
@@ -88,31 +93,34 @@ const ProfilePage = () => {
 
       {showChangePasswordModal && (
         <div
-          className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
+          className="app-modal-backdrop"
           onClick={() => setShowChangePasswordModal(false)}
         >
-          <div className="bg-white" onClick={(e) => e.stopPropagation()}>
-            <div className="relative flex items-center justify-center w-full border-b border-gray-300">
-              <h2 className="text-center font-bold py-4">Change password</h2>
+          <div className="app-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="app-modal-head">
+              <h2 className="app-subtitle text-xl">Change password</h2>
               <button
-                className="absolute right-4 text-2xl cursor-pointer"
+                className="app-button"
                 onClick={() => setShowChangePasswordModal(false)}
               >
                 X
               </button>
             </div>
-            {error && <p className="text-red-600">{error}</p>}
             <form
-              className="mx-auto max-w-2xl border border-neutral-800 p-8"
+              className="p-5"
               onSubmit={(e) => {
                 e.preventDefault();
                 void handleChangePassword();
               }}
             >
-              <div className="flex flex-col mb-3">
-                <label>Current password</label>
+              {error && <p className="app-error">{error}</p>}
+              <div className="app-field">
+                <label className="app-label" htmlFor="currentPassword">
+                  Current password
+                </label>
                 <input
-                  className="bg-neutral-200 p-1 w-full"
+                  id="currentPassword"
+                  className="app-input"
                   name="currentPassword"
                   value={form.currentPassword}
                   onChange={handleChange}
@@ -121,15 +129,18 @@ const ProfilePage = () => {
                   autoComplete="off"
                 />
                 {fieldErrors.CurrentPassword?.map((msg) => (
-                  <p key={msg} className="text-red-600">
+                  <p key={msg} className="app-error">
                     {msg}
                   </p>
                 ))}
               </div>
-              <div className="flex flex-col mb-3">
-                <label>New password</label>
+              <div className="app-field">
+                <label className="app-label" htmlFor="newPassword">
+                  New password
+                </label>
                 <input
-                  className="bg-neutral-200 p-1 w-full"
+                  id="newPassword"
+                  className="app-input"
                   name="newPassword"
                   value={form.newPassword}
                   onChange={handleChange}
@@ -138,24 +149,27 @@ const ProfilePage = () => {
                   autoComplete="off"
                 />
                 {fieldErrors.NewPassword?.map((msg) => (
-                  <p key={msg} className="text-red-600">
+                  <p key={msg} className="app-error">
                     {msg}
                   </p>
                 ))}
               </div>
-              <button
-                className="px-12 py-2 bg-green-900 text-neutral-50 mt-4 mr-2 cursor-pointer"
-                type="submit"
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? "Changeing password..." : "Change password"}
-              </button>
-              <button
-                className="px-12 py-2 bg-neutral-200 cursor-pointer mt-4"
-                onClick={() => setShowChangePasswordModal(false)}
-              >
-                Cancel
-              </button>
+              <div className="flex flex-wrap gap-3">
+                <button
+                  className="app-button app-button-primary"
+                  type="submit"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? "Changing password..." : "Change password"}
+                </button>
+                <button
+                  className="app-button"
+                  type="button"
+                  onClick={() => setShowChangePasswordModal(false)}
+                >
+                  Cancel
+                </button>
+              </div>
             </form>
           </div>
         </div>

@@ -15,6 +15,17 @@
     background: #fff;
   }
 
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  img {
+    max-width: 100%;
+    display: block;
+  }
+
   button,
   input,
   textarea {
@@ -31,20 +42,25 @@
 }
 
 @layer components {
+  .app-header-inner {
+    width: min(100%, 1120px);
+    margin-inline: auto;
+  }
+
   .app-page {
     width: min(100%, 1120px);
     margin-inline: auto;
-    padding: 40px 20px 64px;
+    padding: 40px clamp(16px, 4vw, 24px) 64px;
   }
 
   .app-page-narrow {
     width: min(100%, 720px);
     margin-inline: auto;
-    padding: 40px 20px 64px;
+    padding: 40px clamp(16px, 4vw, 24px) 64px;
   }
 
   .app-title {
-    font-size: clamp(2.25rem, 5vw, 4.75rem);
+    font-size: clamp(2rem, 11vw, 4.75rem);
     line-height: 0.95;
     font-weight: 900;
     letter-spacing: 0;
@@ -75,6 +91,7 @@
 
   .app-input,
   .app-textarea {
+    min-width: 0;
     width: 100%;
     border: 1px solid #111;
     background: #fff;
@@ -108,9 +125,11 @@
 
   .app-button {
     display: inline-flex;
+    max-width: 100%;
     min-height: 42px;
     align-items: center;
     justify-content: center;
+    gap: 8px;
     border: 1px solid #111;
     background: #fff;
     color: #111;
@@ -119,6 +138,7 @@
     text-transform: uppercase;
     box-shadow: 3px 3px 0 #111;
     cursor: pointer;
+    text-align: center;
   }
 
   .app-button:hover:not(:disabled) {
@@ -139,14 +159,13 @@
 
   .app-filter {
     min-height: 36px;
-    border-radius: 999px;
     box-shadow: none;
     font-size: 0.82rem;
   }
 
   .app-card-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
     gap: 24px;
   }
 
@@ -181,6 +200,7 @@
     line-height: 1.1;
     font-weight: 900;
     text-transform: uppercase;
+    overflow-wrap: anywhere;
   }
 
   .app-muted {
@@ -195,7 +215,7 @@
 
   .app-detail {
     display: grid;
-    grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
     gap: 32px;
   }
 
@@ -210,6 +230,7 @@
 
   .app-stat {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     gap: 16px;
     border-bottom: 1px solid #ddd;
@@ -228,7 +249,7 @@
   }
 
   .app-modal {
-    width: min(100%, 560px);
+    width: min(calc(100vw - 36px), 560px);
     max-height: 88vh;
     overflow: auto;
     border: 1px solid #111;
@@ -236,10 +257,15 @@
     box-shadow: 7px 7px 0 #111;
   }
 
+  .app-modal-wide {
+    width: min(calc(100vw - 36px), 860px);
+  }
+
   .app-modal-head {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 12px;
     border-bottom: 1px solid #111;
     padding: 14px 18px;
   }
@@ -248,6 +274,7 @@
     overflow-x: auto;
     border: 1px solid #111;
     background: #fff;
+    -webkit-overflow-scrolling: touch;
   }
 
   .app-table {
@@ -261,6 +288,7 @@
     border-bottom: 1px solid #ddd;
     padding: 14px 16px;
     text-align: left;
+    white-space: nowrap;
   }
 
   .app-table th {
@@ -270,22 +298,215 @@
     text-transform: uppercase;
   }
 
+  .app-mobile-list {
+    display: none;
+  }
+
+  .app-mobile-row {
+    border: 1px solid #111;
+    background: #fff;
+    padding: 16px;
+    box-shadow: 4px 4px 0 #111;
+  }
+
+  .app-mobile-row-title {
+    font-size: 1.1rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    overflow-wrap: anywhere;
+  }
+
+  .app-mobile-row-line {
+    display: grid;
+    grid-template-columns: minmax(88px, 0.42fr) minmax(0, 1fr);
+    gap: 12px;
+    border-top: 1px solid #ddd;
+    padding-block: 10px;
+  }
+
+  .app-mobile-row-label {
+    color: #555;
+    font-size: 0.78rem;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+
+  .app-mobile-row-value {
+    min-width: 0;
+    overflow-wrap: anywhere;
+    font-weight: 700;
+  }
+
+  .app-bid-list {
+    display: none;
+  }
+
   .app-error {
     margin-block: 10px;
     border-left: 4px solid #111;
     padding-left: 10px;
     font-weight: 700;
   }
+
+  .app-loading {
+    display: flex;
+    min-height: 180px;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+
+  .app-button-spinner {
+    margin-right: 8px;
+  }
 }
 
 @media (max-width: 760px) {
   @layer components {
+    .app-page,
+    .app-page-narrow {
+      padding-top: 28px;
+      padding-bottom: 48px;
+    }
+
+    .app-toolbar {
+      align-items: stretch;
+      gap: 10px;
+      margin-block: 22px;
+    }
+
+    .app-toolbar .app-input {
+      max-width: none;
+      flex-basis: 100%;
+    }
+
+    .app-filter {
+      flex: 1 1 30%;
+      padding-inline: 10px;
+    }
+
+    .app-card-grid {
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+
+    .auction-card,
+    .bid-card,
+    .app-form,
+    .app-detail-image,
+    .app-modal {
+      box-shadow: 4px 4px 0 #111;
+    }
+
+    .app-card-body {
+      min-height: auto;
+    }
+
     .app-detail {
       grid-template-columns: 1fr;
+      gap: 24px;
     }
 
     .app-form {
       padding: 20px;
+    }
+
+    .app-button {
+      min-height: 44px;
+    }
+
+    .app-modal-backdrop {
+      align-items: flex-start;
+      padding: 12px;
+    }
+
+    .app-modal {
+      width: min(calc(100vw - 24px), 560px);
+      max-height: calc(100vh - 24px);
+    }
+
+    .app-modal-wide {
+      width: min(calc(100vw - 24px), 860px);
+    }
+
+    .app-modal-head {
+      padding: 12px;
+    }
+
+    .app-table {
+      min-width: 620px;
+    }
+  }
+}
+
+@media (max-width: 640px) {
+  @layer components {
+    .app-table-wrap.app-admin-table {
+      display: none;
+    }
+
+    .app-table-wrap.app-bids-table {
+      display: none;
+    }
+
+    .app-mobile-list {
+      display: grid;
+      gap: 18px;
+    }
+
+    .app-bid-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .app-bid-row {
+      border: 1px solid #111;
+      background: #fff;
+      padding: 14px;
+      box-shadow: 3px 3px 0 #111;
+    }
+
+    .app-bid-row-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 8px;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 10px;
+    }
+
+    .app-mobile-row-actions {
+      display: grid;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .app-mobile-row-actions .app-button {
+      width: 100%;
+    }
+  }
+}
+
+@media (max-width: 420px) {
+  @layer components {
+    .app-title {
+      font-size: clamp(1.85rem, 13vw, 3rem);
+    }
+
+    .app-form {
+      padding: 16px;
+    }
+
+    .app-filter {
+      width: auto;
+    }
+
+    .app-stat {
+      display: grid;
+      gap: 4px;
     }
   }
 }

@@ -1,4 +1,5 @@
 import { createAuction } from "@/api/auctionApi";
+import Spinner from "@/components/spinner/Spinner";
 import { ApiError } from "@/types/apiError";
 import type { CreateAuctionRequest } from "@/types/auction";
 import { getDefaultEndtime } from "@/utils/dateUtils";
@@ -186,6 +187,7 @@ const CreateAuctionPage = () => {
           type="submit"
           disabled={isSubmitting}
         >
+          {isSubmitting && <Spinner sizeClass="h-4 w-4" thickClass="border-2" />}
           {isSubmitting ? "Creating auction..." : "Create"}
         </button>
       </form>

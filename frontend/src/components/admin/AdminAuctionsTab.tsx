@@ -72,24 +72,26 @@ const AdminAuctionsTab = () => {
     <section>
       <div className="app-toolbar justify-between">
         <h2 className="app-subtitle">Auctions</h2>
-        <div className="flex flex-wrap gap-3">
+        <div className="grid w-full gap-3 md:w-auto">
           <input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search auctions..."
             className="app-input max-w-sm"
           />
-          {statuses.map((s) => (
-            <button
-              key={s}
-              onClick={() => setStatus(s)}
-              className={`app-button app-filter capitalize ${
-                status === s ? "app-filter-active" : ""
-              }`}
-            >
-              {s}
-            </button>
-          ))}
+          <div className="grid grid-cols-3 gap-3">
+            {statuses.map((s) => (
+              <button
+                key={s}
+                onClick={() => setStatus(s)}
+                className={`app-button app-filter capitalize ${
+                  status === s ? "app-filter-active" : ""
+                }`}
+              >
+                {s}
+              </button>
+            ))}
+          </div>
         </div>
         {isLoading && <Spinner sizeClass="h-8 w-8" thickClass="border-4" />}
       </div>
@@ -99,7 +101,57 @@ const AdminAuctionsTab = () => {
           {auctionsError && <p>{auctionsError}</p>}
         </div>
       )}
-      <div className="app-table-wrap">
+      <div className="app-mobile-list">
+        {auctions.map((auction) => (
+          <article className="app-mobile-row" key={auction.auctionId}>
+            <NavLink
+              className="app-mobile-row-title underline"
+              to={`/auctions/${auction.auctionId}`}
+            >
+              {auction.title}
+            </NavLink>
+            <div className="mt-3">
+              <div className="app-mobile-row-line">
+                <span className="app-mobile-row-label">Owner</span>
+                <span className="app-mobile-row-value">
+                  {auction.ownerUsername}
+                </span>
+              </div>
+              <div className="app-mobile-row-line">
+                <span className="app-mobile-row-label">Bids</span>
+                <span className="app-mobile-row-value">{auction.bidCount}</span>
+              </div>
+              <div className="app-mobile-row-line">
+                <span className="app-mobile-row-label">Status</span>
+                <span className="app-mobile-row-value">
+                  {auction.inactivatedAt === null
+                    ? auction.isOpen
+                      ? "Open"
+                      : "Closed"
+                    : "Inactivated"}
+                </span>
+              </div>
+            </div>
+            {(auction.isOpen || auction.inactivatedAt !== null) && (
+              <div className="app-mobile-row-actions">
+                <button
+                  className="app-button"
+                  onClick={() => handleStatus(auction)}
+                >
+                  {isLoadingStatusId === auction.auctionId ? (
+                    <Spinner />
+                  ) : auction.isActive ? (
+                    "Inactivate"
+                  ) : (
+                    "Activate"
+                  )}
+                </button>
+              </div>
+            )}
+          </article>
+        ))}
+      </div>
+      <div className="app-table-wrap app-admin-table">
         <table className="app-table">
           <thead>
             <tr>

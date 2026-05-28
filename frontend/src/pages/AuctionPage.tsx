@@ -1,5 +1,6 @@
 import { getAuction, updateAuction } from "@/api/auctionApi";
 import { placeBid, retractBid } from "@/api/bidApi";
+import Spinner from "@/components/spinner/Spinner";
 import { useAuth } from "@/hooks/useAuth";
 import { ApiError } from "@/types/apiError";
 import type {
@@ -21,7 +22,9 @@ const AuctionPage = () => {
   const [showPlaceBidModal, setShowPlaceBidModal] = useState(false);
   const [bidAmount, setBidAmount] = useState<PlaceBidRequest>({ amount: 0 });
   const [placeBidError, setPlaceBidError] = useState<string>();
+  const [isPlacingBid, setIsPlacingBid] = useState(false);
   const [retractBidError, setRetractBidError] = useState<string>();
+  const [isRetractingBid, setIsRetractingBid] = useState(false);
   const [showBidsModal, setShowBidsModal] = useState(false);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [updateError, setUpdateError] = useState<string>();
@@ -68,6 +71,7 @@ const AuctionPage = () => {
   const handlePlaceBid = async () => {
     if (!auction?.auctionId) return;
     setPlaceBidError("");
+    setIsPlacingBid(true);
     try {
       const response = await placeBid(auction?.auctionId, bidAmount);
 
@@ -85,6 +89,8 @@ const AuctionPage = () => {
       setPlaceBidError(
         error instanceof Error ? error.message : "Failed to place bid",
       );
+    } finally {
+      setIsPlacingBid(false);
     }
   };
 
@@ -92,6 +98,7 @@ const AuctionPage = () => {
     if (!auction?.bids?.[0]?.bidId) return;
 
     setRetractBidError("");
+    setIsRetractingBid(true);
 
     try {
       await retractBid(auction?.bids[0].bidId);
@@ -109,6 +116,8 @@ const AuctionPage = () => {
         error instanceof Error ? error.message : "Failed to retract bid";
       setRetractBidError(message);
       window.alert(message);
+    } finally {
+      setIsRetractingBid(false);
     }
   };
 
@@ -137,7 +146,15 @@ const AuctionPage = () => {
     }
   };
 
-  if (isLoading) return <p className="app-page">Loading ...</p>;
+  if (isLoading)
+    return (
+      <div className="app-page">
+        <div className="app-loading">
+          <Spinner sizeClass="h-8 w-8" thickClass="border-4" />
+          <span>Loading auction</span>
+        </div>
+      </div>
+    );
   if (error) return <p className="app-page app-error">{error}</p>;
   if (!auction) return <p className="app-page">404 Auction Not Found</p>;
 
@@ -200,8 +217,12 @@ const AuctionPage = () => {
                     if (ok) handleRetractBid();
                   }}
                   className="app-button app-button-primary"
+                  disabled={isRetractingBid}
                 >
-                  Retract bid
+                  {isRetractingBid && (
+                    <Spinner sizeClass="h-4 w-4" thickClass="border-2" />
+                  )}
+                  {isRetractingBid ? "Retracting bid..." : "Retract bid"}
                 </button>
               ) : (
                 <button
@@ -268,8 +289,15 @@ const AuctionPage = () => {
                 />
               </div>
               <div className="flex flex-wrap gap-3">
-                <button onClick={handlePlaceBid} className="app-button app-button-primary">
-                  Place bid
+                <button
+                  onClick={handlePlaceBid}
+                  className="app-button app-button-primary"
+                  disabled={isPlacingBid}
+                >
+                  {isPlacingBid && (
+                    <Spinner sizeClass="h-4 w-4" thickClass="border-2" />
+                  )}
+                  {isPlacingBid ? "Placing bid..." : "Place bid"}
                 </button>
                 <button onClick={() => setShowPlaceBidModal(false)} className="app-button">
                   Cancel
@@ -282,7 +310,10 @@ const AuctionPage = () => {
 
       {showBidsModal && auction.isOpen && (
         <div className="app-modal-backdrop" onClick={() => setShowBidsModal(false)}>
-          <div className="app-modal" onClick={(e) => e.stopPropagation()}>
+          <div
+            className="app-modal app-modal-wide"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="app-modal-head">
               <h2 className="app-subtitle text-xl">Bid history</h2>
               <button className="app-button" onClick={() => setShowBidsModal(false)}>
@@ -294,7 +325,23 @@ const AuctionPage = () => {
                 {auction.bids.length} bids |{" "}
                 {new Set(auction.bids.map((b) => b.bidderUsername)).size} bidders
               </p>
-              <div className="app-table-wrap">
+              <div className="app-bid-list">
+                {auction.bids.map((b) => (
+                  <article className="app-bid-row" key={b.bidId}>
+                    <div className="app-bid-row-head">
+                      <h3 className="font-black">{b.bidderUsername}</h3>
+                      <p className="app-price text-xl">{b.amount} kr</p>
+                    </div>
+                    <div className="app-mobile-row-line border-t-0">
+                      <span className="app-mobile-row-label">Date</span>
+                      <span className="app-mobile-row-value">
+                        {formatDate(b.createdAt)}
+                      </span>
+                    </div>
+                  </article>
+                ))}
+              </div>
+              <div className="app-table-wrap app-bids-table">
                 <table className="app-table">
                   <thead>
                     <tr>
@@ -407,6 +454,12 @@ const AuctionPage = () => {
                   type="submit"
                   disabled={isUpdating}
                 >
+                  {isUpdating && (
+                    <Spinner
+                      sizeClass="h-4 w-4"
+                      thickClass="border-2"
+                    />
+                  )}
                   {isUpdating ? "Updating auction..." : "Update"}
                 </button>
                 <button

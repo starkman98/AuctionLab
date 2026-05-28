@@ -1,5 +1,6 @@
 import { getMyAuctions } from "@/api/auctionApi";
 import AuctionListCard from "@/components/auction/AuctionListCard";
+import Spinner from "@/components/spinner/Spinner";
 import { useAuth } from "@/hooks/useAuth";
 import { useDebounce } from "@/hooks/useDebounce";
 import type { AuctionSummaryResponse } from "@/types/auction";
@@ -8,6 +9,8 @@ import { useEffect, useState } from "react";
 const MyAuctionsPage = () => {
   const { user } = useAuth();
   const [myAuctions, setMyAuctions] = useState<AuctionSummaryResponse[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const [search, setSearch] = useState("");
   const debouncedSearch = useDebounce(search, 300);
@@ -17,7 +20,17 @@ const MyAuctionsPage = () => {
 
   useEffect(() => {
     const fetchMyAuctions = async () => {
-      setMyAuctions(await getMyAuctions(status, debouncedSearch));
+      setIsLoading(true);
+      setError("");
+      try {
+        setMyAuctions(await getMyAuctions(status, debouncedSearch));
+      } catch (error) {
+        setError(
+          error instanceof Error ? error.message : "Failed to load auctions",
+        );
+      } finally {
+        setIsLoading(false);
+      }
     };
     fetchMyAuctions();
   }, [debouncedSearch, status]);
@@ -45,7 +58,14 @@ const MyAuctionsPage = () => {
           </button>
         ))}
       </div>
-      <AuctionListCard auctions={myAuctions} />
+      {isLoading && (
+        <div className="app-loading">
+          <Spinner sizeClass="h-8 w-8" thickClass="border-4" />
+          <span>Loading auctions</span>
+        </div>
+      )}
+      {error && <p className="app-error">{error}</p>}
+      {!isLoading && !error && <AuctionListCard auctions={myAuctions} />}
     </section>
   );
 };

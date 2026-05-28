@@ -1,4 +1,5 @@
 import { changePassword } from "@/api/userApi";
+import Spinner from "@/components/spinner/Spinner";
 import { useAuth } from "@/hooks/useAuth";
 import { ApiError } from "@/types/apiError";
 import type { ChangePasswordRequest } from "@/types/user";
@@ -160,6 +161,9 @@ const ProfilePage = () => {
                   type="submit"
                   disabled={isSubmitting}
                 >
+                  {isSubmitting && (
+                    <Spinner sizeClass="h-4 w-4" thickClass="border-2" />
+                  )}
                   {isSubmitting ? "Changing password..." : "Change password"}
                 </button>
                 <button

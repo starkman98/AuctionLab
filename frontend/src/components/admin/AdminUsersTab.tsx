@@ -113,7 +113,51 @@ const AdminUsersTab = () => {
           {usersError && <p>{usersError}</p>}
         </div>
       )}
-      <div className="app-table-wrap">
+      <div className="app-mobile-list">
+        {users.map((user) => (
+          <article className="app-mobile-row" key={user.userId}>
+            <h3 className="app-mobile-row-title">{user.userName}</h3>
+            <div className="mt-3">
+              <div className="app-mobile-row-line">
+                <span className="app-mobile-row-label">Email</span>
+                <span className="app-mobile-row-value">{user.email}</span>
+              </div>
+              <div className="app-mobile-row-line">
+                <span className="app-mobile-row-label">Role</span>
+                <span className="app-mobile-row-value">{user.role}</span>
+              </div>
+              <div className="app-mobile-row-line">
+                <span className="app-mobile-row-label">Status</span>
+                <span className="app-mobile-row-value">
+                  {user.isActive ? "Active" : "Inactive"}
+                </span>
+              </div>
+            </div>
+            <div className="app-mobile-row-actions">
+              <button className="app-button" onClick={() => handleStatus(user)}>
+                {isLoadingStatusId === user.userId ? (
+                  <Spinner />
+                ) : user.isActive ? (
+                  "Inactivate"
+                ) : (
+                  "Activate"
+                )}
+              </button>
+              <button
+                className="app-button"
+                onClick={() => handleChangeRole(user)}
+              >
+                {isLoadingChangeRoleId === user.userId ? (
+                  <Spinner />
+                ) : (
+                  "Change role"
+                )}
+              </button>
+            </div>
+          </article>
+        ))}
+      </div>
+      <div className="app-table-wrap app-admin-table">
         <table className="app-table">
           <thead>
             <tr>
@@ -133,7 +177,10 @@ const AdminUsersTab = () => {
                 <td>{user.isActive ? "Active" : "Inactive"}</td>
                 <td>
                   <div className="flex flex-wrap gap-3">
-                    <button className="app-button" onClick={() => handleStatus(user)}>
+                    <button
+                      className="app-button"
+                      onClick={() => handleStatus(user)}
+                    >
                       {isLoadingStatusId === user.userId ? (
                         <Spinner />
                       ) : user.isActive ? (
@@ -142,7 +189,10 @@ const AdminUsersTab = () => {
                         "Activate"
                       )}
                     </button>
-                    <button className="app-button" onClick={() => handleChangeRole(user)}>
+                    <button
+                      className="app-button"
+                      onClick={() => handleChangeRole(user)}
+                    >
                       {isLoadingChangeRoleId === user.userId ? (
                         <Spinner />
                       ) : (

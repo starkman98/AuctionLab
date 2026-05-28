@@ -1,4 +1,5 @@
 import { registerApi } from "@/api/authApi";
+import Spinner from "@/components/spinner/Spinner";
 import { getMe } from "@/api/userApi";
 import { useAuth } from "@/hooks/useAuth";
 import { ApiError } from "@/types/apiError";
@@ -151,6 +152,7 @@ const RegisterPage = () => {
           type="submit"
           disabled={isSubmitting}
         >
+          {isSubmitting && <Spinner sizeClass="h-4 w-4" thickClass="border-2" />}
           {isSubmitting ? "Registering..." : "Register"}
         </button>
       </form>

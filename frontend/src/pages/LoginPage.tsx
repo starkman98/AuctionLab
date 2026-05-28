@@ -1,4 +1,5 @@
 import { loginApi } from "@/api/authApi";
+import Spinner from "@/components/spinner/Spinner";
 import { ApiError } from "@/types/apiError";
 import { getMe } from "@/api/userApi";
 import { useAuth } from "@/hooks/useAuth";
@@ -99,6 +100,7 @@ const LoginPage = () => {
           type="submit"
           disabled={isSubmitting}
         >
+          {isSubmitting && <Spinner sizeClass="h-4 w-4" thickClass="border-2" />}
           {isSubmitting ? "Logging in..." : "Log in"}
         </button>
       </form>

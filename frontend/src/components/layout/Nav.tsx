@@ -5,11 +5,11 @@ const Nav = () => {
   const { user, isAuthenticated, logout } = useAuth();
 
   const navStyle =
-    "flex items-center whitespace-nowrap border-l border-black px-3 text-sm font-bold uppercase hover:bg-black hover:text-white md:px-4";
+    "flex min-h-11 flex-1 items-center justify-center whitespace-nowrap border-b border-r border-black px-3 text-xs font-bold uppercase hover:bg-black hover:text-white md:min-h-0 md:flex-none md:border-b-0 md:border-l md:border-r-0 md:text-sm md:px-4";
   const activeNavStyle = navStyle + " bg-black text-white";
 
   return (
-    <nav className="flex h-full items-stretch text-center">
+    <nav className="grid grid-cols-3 text-center sm:grid-cols-4 md:flex md:h-full md:items-stretch">
       <NavLink
         to="/"
         className={({ isActive }) => (isActive ? activeNavStyle : navStyle)}

@@ -6,6 +6,7 @@ import {
   type UpdateAuctionRequest,
 } from "@/types/auction";
 import { apiFetch } from "./apiFetch";
+import type { PagedResponse } from "@/types/pagination";
 
 export const getAuctions = (
   search?: string,
@@ -13,7 +14,7 @@ export const getAuctions = (
   page?: number,
   pageSize?: number,
 ) =>
-  apiFetch<AuctionSummaryResponse[]>(
+  apiFetch<PagedResponse<AuctionSummaryResponse>>(
     `/auctions?search=${search ?? ""}&status=${status ?? "all"}&page=${page ?? 1}&pageSize=${pageSize ?? 20}`,
   );
 

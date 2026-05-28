@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using AuctionLab.Application.Auctions.Exceptions;
 using AuctionLab.Domain.Enums;
+using AuctionLab.Application.Common;
 
 namespace AuctionLab.Api.Controllers;
 
@@ -29,7 +30,7 @@ public class AuctionsController : AppControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<AuctionSummaryResponse>>> GetAuctions(
+    public async Task<ActionResult<PagedResponse<AuctionSummaryResponse>>> GetAuctions(
         [FromQuery] string? search, 
         [FromQuery] AuctionStatus? status,
         [FromQuery] int page = 1,

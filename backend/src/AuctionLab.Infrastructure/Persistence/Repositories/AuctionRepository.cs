@@ -80,7 +80,7 @@ public class AuctionRepository : IAuctionRepository
         .ToListAsync(cancellationToken);
     }
 
-    public async Task<List<Auction>> SearchAsync(string? search, AuctionStatus status, int page, int pageSize, CancellationToken cancellationToken = default)
+    public async Task<(List<Auction>, int totalCount)> SearchAsync(string? search, AuctionStatus status, int page, int pageSize, CancellationToken cancellationToken = default)
     {
         var query = _context.Auctions.AsNoTracking().AsQueryable();
 
@@ -94,7 +94,9 @@ public class AuctionRepository : IAuctionRepository
         if (search != null)
             query = query.Where(a => a.Title.Contains(search) || a.Description.Contains(search));
 
-        return await query
+            var totalCount = await query.CountAsync(cancellationToken);
+
+        var items = await query
             .Include(a => a.User)
             .Include(a => a.Bids)
             .ThenInclude(b => b.User)
@@ -102,6 +104,8 @@ public class AuctionRepository : IAuctionRepository
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync(cancellationToken);
+
+        return (items, totalCount);
     }
 
     public async Task UpdateAsync(Auction auction, CancellationToken cancellationToken = default)

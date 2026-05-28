@@ -1,5 +1,6 @@
 using AuctionLab.Application.Auctions.DTOs;
 using AuctionLab.Application.Auctions.Exceptions;
+using AuctionLab.Application.Common;
 using AuctionLab.Application.Repositories;
 using AuctionLab.Domain.Entities;
 using AuctionLab.Domain.Enums;
@@ -61,7 +62,7 @@ public class AuctionService : IAuctionService
         return auctionsResponse;
     }
 
-    public async Task<List<AuctionSummaryResponse>> SearchAsync(
+    public async Task<PagedResponse<AuctionSummaryResponse>> SearchAsync(
         string? search,
         AuctionStatus status,
         int page,
@@ -71,9 +72,11 @@ public class AuctionService : IAuctionService
         page = Math.Max(1, page);
         pageSize = Math.Clamp(pageSize, 1, 100);
 
-        var auctions = await _repo.SearchAsync(search, status, page, pageSize, cancellationToken);
+        var (auctions, totalCount) = await _repo.SearchAsync(search, status, page, pageSize, cancellationToken);
 
-        return auctions.Select(auction => AuctionMapper.ToSummaryResponse(auction)).ToList();
+        var items = auctions.Select(auction => AuctionMapper.ToSummaryResponse(auction)).ToList();
+
+        return new PagedResponse<AuctionSummaryResponse>(items, totalCount, page, pageSize);
     }
 
     public async Task<AuctionDetailResponse> UpdateAsync(UpdateAuctionRequest request, int auctionId, int userId, CancellationToken cancellationToken = default)

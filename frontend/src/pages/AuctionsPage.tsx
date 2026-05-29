@@ -18,7 +18,7 @@ const AuctionsPage = () => {
   const statuses = ["all", "open", "closed"] as const;
 
   const [page, setPage] = useState(1);
-  const pageSize = 5;
+  const pageSize = 9;
 
   useEffect(() => {
     const fetchAuctions = async () => {
@@ -80,23 +80,27 @@ const AuctionsPage = () => {
       {error && <p className="app-error">{error}</p>}
       <AuctionListCard auctions={auctions} />
 
-      <div className="mt-10 flex items-center justify-center gap-4">
-        <button
-          className="app-button"
-          onClick={() => setPage(page - 1)}
-          disabled={page === 1}
-        >
-          Prev
-        </button>
-        <p className="font-black uppercase">Page {page}</p>
-        <button
-          className="app-button"
-          onClick={() => setPage(page + 1)}
-          disabled={page === totalPages}
-        >
-          Next
-        </button>
-      </div>
+      {totalPages > 1 && (
+        <div className="mt-10 flex items-center justify-center gap-4">
+          <button
+            className="app-button"
+            onClick={() => setPage(page - 1)}
+            disabled={page === 1}
+          >
+            Prev
+          </button>
+          <p className="font-black uppercase">
+            Page {page} of {totalPages}
+          </p>
+          <button
+            className="app-button"
+            onClick={() => setPage(page + 1)}
+            disabled={page === totalPages}
+          >
+            Next
+          </button>
+        </div>
+      )}
     </section>
   );
 };

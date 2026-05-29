@@ -2,6 +2,7 @@ using AuctionLab.Application.Auth;
 using AuctionLab.Domain.Constants;
 using AuctionLab.Domain.Entities;
 using AuctionLab.Infrastructure.Persistence;
+using AuctionLab.Infrastructure.Persistence.Seeders;
 using Microsoft.EntityFrameworkCore;
 
 namespace AuctionLab.Api.Extensions;
@@ -32,5 +33,14 @@ public static class WebApplicationExtensions
         });
 
         await db.SaveChangesAsync();
+    }
+
+    public static async Task SeedDevelopmentDataAsync(this WebApplication app)
+    {
+        using var scope = app.Services.CreateScope();
+        var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        var hasher = scope.ServiceProvider.GetRequiredService<IPasswordHasher>();
+
+        await DevelopmentDataSeeder.SeedAsync(db, hasher);
     }
 }

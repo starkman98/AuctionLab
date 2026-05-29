@@ -115,6 +115,11 @@ app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 await app.SeedAdminAsync();
 
+if (app.Environment.IsDevelopment())
+{
+    await app.SeedDevelopmentDataAsync();
+}
+
 app.UseSwagger();
 app.UseSwaggerUI();
 
